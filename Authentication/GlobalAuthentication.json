@@ -1,0 +1,1640 @@
+﻿{
+
+  "cxone-configuration": {
+    "get": {
+      "tags": [
+        "Discovery"
+      ],
+      "summary": "Retrieve the standard discovery document for a tenant.",
+      "description": "Retrieve the standard discovery document for a tenant in the CXone environment.",
+      "operationId": "getCXoneConfig",
+      "parameters": [
+        {
+          "in": "query",
+          "name": "tenantId",
+          "description": "Identify the tenant that is requesting configuration information to allow returning the appropriate endpoints and other information.",
+          "required": true,
+          "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "CXone Discover Result",
+                "type": "object",
+                "required": [
+                  "private",
+                  "ui_endpoint",
+                  "auth_endpoint",
+                  "api_endpoint",
+                  "region",
+                  "domain",
+                  "uhDomain"
+                ],
+                "properties": {
+                  "private": {
+                    "type": "boolean"
+                  },
+                  "ui_endpoint": {
+                    "type": "string",
+                    "format": "url"
+                  },
+                  "auth_endpoint": {
+                    "type": "string",
+                    "format": "url"
+                  },
+                  "api_endpoint": {
+                    "type": "string",
+                    "format": "url"
+                  },
+                  "area": {
+                    "type": "string"
+                  },
+                  "cluster": {
+                    "type": "string"
+                  },
+                  "domain": {
+                    "type": "string"
+                  },
+                  "acdDomain": {
+                    "type": "string"
+                  },
+                  "uhDomain": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "private": false,
+                "area": "na1",
+                "cluster": "c42",
+                "domain": "niceincontact.com",
+                "acdDomain": "incontact.com",
+                "uhDomain": "nice-incontact.com",
+                "ui_endpoint": "https://na1.nice-incontact.com",
+                "auth_endpoint": "https://na1.nice-incontact.com",
+                "api_endpoint": "https://api-na1.niceincontact.com"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "Tenant not found."
+        }
+      }
+    }
+  },
+  "openid-configuration": {
+    "get": {
+      "tags": [
+        "Discovery"
+      ],
+      "summary": "Retrieve the configuration document for OpenID Connect.",
+      "description": "Retrieve the OpenID Connect standard configuration document.",
+      "operationId": "getOIDCConfig",
+      "externalDocs": {
+        "description": "OpenID Connect Discovery Specification",
+        "url": "https://openid.net/specs/openid-connect-discovery-1_0.html"
+      },
+      "responses": {
+        "200": {
+          "description": "Success",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/oidc-discovery"
+              },
+              "examples": {
+                "Success": {
+                  "$ref": "#/components/examples/oidc-discovery"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "authorize": {
+    "get": {
+      "tags": [
+        "Authorize"
+      ],
+      "summary": "Start a user authorization process.",
+      "description": "Each user authentication starts with either this endpoint or its corresponding POST. When\nused with a get action the following flows are supported:\n* OpenID Connect initial authorization. This follows the OIDC specification.\n\nThis endpoint and its corresponding POST version is the only endpoint that sets\nthe `cxone_sso_state` cookie. This cookie is limited\nto this host and path and is not accessible to JavaScript. It must be sent securely.\n\n### OpenID Connect\nThe parameters and implementation meets the specification of the\n[OpenID Connect Core Specification](https://openid.net/specs/openid-connect-core-1_0.html)\nsection 3.1.2.1.\nIf supported for the client_id then [PKCE](https://tools.ietf.org/html/rfc7636) can\nalso be used as part of this flow and the corresponding token request.\n\nNote that the `tenantId` and `resellerId` parameters are not part of the OpenID Connect standard but it allows additional\nparameters. These parameters contain unique tenant and reseller identifiers and if used limit the users that\nare allowed to authenticate.\n\n### User Interactions\nThis endpoint may return a user interface which starts an authentication interaction with a user. In these cases\na POST to this endpoint is used to submit user information and continue the flow.\n",
+      "operationId": "getAuthAuthorize",
+      "parameters": [
+        {
+          "in": "cookie",
+          "name": "cxone_sso_state",
+          "description": "Optionally indicate current authentication state to the service.",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "format": "base64"
+          },
+          "example": "eyJnbG9iYWxfYmFubmVyX2hhc2giOiIwK1p1ZDNkUkg4U1FsV3JMbmtWZm5Wcm1MLzRTbmF2Y3FJZnNGQld3ejNnPSIsInJlc2VsbGVyX2Jhbm5lcl9oYXNoIjoiZzZwUFJQY1k1ZFFaUmkrZDJudnZrWXpONGhkVHE3SndzeUdLT3JVeS9VOD0iLCJ0ZW5hbnRfYmFubmVyX2hhc2giOiJzY3I1cGd3OTVFL0swZ1MxR0dvbmY3Z25NUTlYTW9ITmtGTzRtVWdBNnpnPSIsInVzZXJuYW1lIjoiYWxpY2UiLCJ0ZW5hbnRJZCI6InRhIn0="
+        },
+        {
+          "in": "query",
+          "name": "tenantId",
+          "description": "Identify the tenant that is requesting authentication to allow customization by tenant. This is optional for the initial authentication flow and not allowed in other cases.",
+          "required": false,
+          "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "in": "query",
+          "name": "resellerId",
+          "description": "Identify the reseller that is requesting authentication to allow customization by reseller. This is optional for the initial authentication flow and not allowed in other cases.",
+          "required": false,
+          "example": "3fa85f84-5717-4562-b3fc-2c963f77afa6",
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "in": "query",
+          "name": "scope",
+          "description": "The requested scope properties, which must equal 'openid'. This is required for the initial authentication flow and not allowed in other cases.",
+          "required": false,
+          "style": "spaceDelimited",
+          "explode": false,
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "openid"
+              ]
+            }
+          }
+        },
+        {
+          "in": "query",
+          "name": "response_type",
+          "description": "The response type requested for this flow. Currently only `code` is supported. This is required for the initial authentication flow and not allowed in other cases.",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "code"
+            ]
+          }
+        },
+        {
+          "in": "query",
+          "name": "client_id",
+          "description": "The client identifier of the application requesting authentication. This is required for the initial authentication flow and not allowed in other cases.",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "query",
+          "name": "redirect_uri",
+          "description": "This is the redirect URL that will be followed after authentication. This is required for the initial authentication flow and not allowed in other cases.",
+          "required": false,
+          "example": "https://integrating-app.com/redirect_handler",
+          "schema": {
+            "type": "string",
+            "format": "url"
+          }
+        },
+        {
+          "in": "query",
+          "name": "state",
+          "description": "An optional state parameter that is owned by the client and will be passed back unmodified. This is optional for the initial authentication and the redirect flow and not allowed in other cases.",
+          "example": "af0ifjsldkj",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "query",
+          "name": "nonce",
+          "description": "An optional nonce that is owned by the client and can be used to mitigate replay attacks. This is optional for the initial authentication flow and not allowed in other cases.",
+          "example": "n-0S6_WzA2Mj",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "query",
+          "name": "display",
+          "description": "An optional indicator of what type of display should be used. This is optional for the initial authentication flow and not allowed in other cases.",
+          "schema": {
+            "type": "string",
+            "enum": [
+              "page",
+              "popup"
+            ],
+            "default": "page"
+          }
+        },
+        {
+          "in": "query",
+          "name": "prompt",
+          "description": "An optional indicator of whether interaction with the user is allowed.\nThe default behavior is a mix of the two, login will be used unless there is state\nfor a current user session. This is optional for the initial authentication flow and not\nallowed in other cases.\n",
+          "schema": {
+            "type": "string",
+            "enum": [
+              "none",
+              "login"
+            ]
+          }
+        },
+        {
+          "in": "query",
+          "name": "max_age",
+          "description": "An optional indicator of how recently the user must have authenticated in order\nto leverage a current user session. This is optional for the initial authentication flow and\nnot allowed in other cases. The value is in seconds. When used the ID token must include\nan `auth_time` claim.\n",
+          "schema": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        {
+          "in": "query",
+          "description": "A previously received id_token that identifies the user who must authenticate. This is optional for the initial authentication flow and\nnot allowed in other cases. If the identified user matches the state of `cxone_sso_state` as being currently logged in the no user interaction is required.\nIf the identity does not match or if there is no state available then a new session is started but must be constrained to authenticate the identified user.\nThis parameter takes priority over `login_hint` parameter if both are present.\n",
+          "name": "id_token_hint",
+          "schema": {
+            "type": "string",
+            "format": "jwt"
+          }
+        },
+        {
+          "in": "query",
+          "name": "login_hint",
+          "description": "A hint for an identifier for the user. This will be used as the username and identifies the user that must authenticate\n(it cannot be changed during authentication). This is optional for the initial authentication flow and not allowed in other cases.\nThis parameter is ignored if the `id_token_hint` parameter is present.\n",
+          "schema": {
+            "type": "string"
+          },
+          "example": "alice"
+        },
+        {
+          "in": "query",
+          "description": "A list of authentication requirements that should be met by the user. This is optional for the initial authentication flow and not allowed in other cases.\nThe values provided must not cause errors, but do not need to have any impact.\n",
+          "name": "acr_values",
+          "style": "spaceDelimited",
+          "explode": false,
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "in": "query",
+          "description": "A choice list of locales for the UX.",
+          "name": "ui_locales",
+          "style": "spaceDelimited",
+          "explode": false,
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "example": "en-US en es jp"
+        },
+        {
+          "in": "query",
+          "description": "A PKCE code challenge, described in section 4.3 of the [PKCE standard](https://tools.ietf.org/html/rfc7636). This is optional for the initial authentication flow and not allowed in other cases.",
+          "name": "code_challenge",
+          "schema": {
+            "type": "string",
+            "format": "base64"
+          },
+          "example": "elU6u5zyqQT2f92GRQUq6PautAeNDf4DQPayyR0ek_c"
+        },
+        {
+          "in": "query",
+          "description": "A PKCE code challenge method, described in section 4.3 of the [PKCE standard](https://tools.ietf.org/html/rfc7636). This is optional for the initial authentication flow and not allowed in other cases.",
+          "name": "code_challenge_method",
+          "schema": {
+            "type": "string",
+            "enum": [
+              "S256"
+            ]
+          }
+        },
+        {
+          "in": "query",
+          "description": "An authorization code passed back from a federated server. Required in redirect calls unless the error parameter is present.",
+          "name": "code",
+          "schema": {
+            "type": "string"
+          },
+          "example": "really_any_type_of_string"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "User interaction required. The authentication process may require obtaining information from\nthe user. This process may complete after several different responses based on the information\nrequired, and can also trigger federated requests to other identity providers. Ultimately a\n302 response will complete the process and return control back to the requesting application.\n",
+          "content": {
+            "text/html": {
+              "schema": {
+                "type": "string"
+              },
+              "example": " <!DOCTYPE html> <html>\n <body>\n <form action=\"/auth/authorize\" method=\"post\">\n \t<input type=\"hidden\" name=\"state\" value=\"{base64 state}\">\n \t<input type=\"text\" id=\"username\" name=\"username\">\n\t<input type=\"submit\" id=\"submit\" name=\"submit\" value=\"Next\">\n </form>\n </body>\n </html> "
+            }
+          }
+        },
+        "302": {
+          "description": "Next flow in the authentication process. This is used for either:\n* A user was already authenticated based on saved state and so a code is returned to the `redirect_uri`.\n* An error occurred, and so an error is returned to the `redirect_uri`.\n\nWhen redirecting to the caller's `redirect_uri` can include the following parameters as defined\nin the OpenID Connect specification:\n* code: Used to return an authorization code on success.\n* error: Used to return an error as defined in OpenID Connect.\n* error_description: Used to return a description of the error.\n\nThe error and error_description should *not* expose any details about the failure that could be used\nto refine an attack.\n",
+          "headers": {
+            "Set-Cookie": {
+              "description": "On a successful login (or to clear current state) store state for future authentications.",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "example": "cxone_sso_state=U29tZSBhdXRoZW50aWNhdGlvbiBzdGF0ZQ%3D%3D; Max-Age=604800; Path=/auth/authorize; Secure; HttpOnly; SameSite=Lax"
+              }
+            },
+            "Location": {
+              "description": "This same flow is used for both errors and for successful authentication returning a code. Eventually a redirect to the `redirect_uri` will occur.",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "format": "url",
+                "example": "https://integrating-app.com/redirect_handler?code=e7772676-132e-41a5-90db-f6fa04fc601a&state=n-0S6_WzA2Mj"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "This is used in two cases as required by the OpenID Connect specification.\n1. The `client_id` parameter is required and is not present.\n1. The `redirect_uri` parameter is required and is not present, or is not valid.\n",
+          "content": {
+            "text/plain": {
+              "schema": {
+                "type": "string"
+              },
+              "examples": {
+                "no_client_id": {
+                  "summary": "No Client ID",
+                  "value": "The required client_id parameter was not provided."
+                },
+                "no_redirect_uri": {
+                  "summary": "No Redirect URI",
+                  "value": "The required redirect_uri parameter was no provided."
+                },
+                "invalid_redirect_uri": {
+                  "summary": "Invalid Redirect URI",
+                  "value": "The provided redirect_uri parameter is not valid."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "post": {
+      "tags": [
+        "Authorize"
+      ],
+      "summary": "Start or continue a user authorization process.",
+      "description": "Each user authentication starts with this endpoint (either GET or POST).\nThere are three major flows supported:\n* OpenID Connect initial authorization. This follows the OIDC specification.\n* User Interactions. This endpoint provides continued user interfaces for user login.\n\nThis endpoint (GET and POST) is the only one that sets\nthe `cxone_sso_state` cookie. This cookie is limited\nto this host and path and is not accessible to JavaScript. It must be sent securely.\n\n### OIDC Connect\nThe parameters and implementation meets the specification of the\n[OpenID Connect Core Specification](https://openid.net/specs/openid-connect-core-1_0.html)\nsection 3.1.2.1.\nIf supported for the client_id then [PKCE](https://tools.ietf.org/html/rfc7636) can\nalso be used as part of this flow and the corresponding token request.\n\nNote that the `tenantId` and `resellerId` parameters are not part of the OpenID Connect standard but it allows additional\nparameters. These parameters contain unique tenant and reseller identifiers\nand if used limit the users that are allowed to authenticate.\n\n### User Interactions\nThis URL may return a user interface which starts or continues an authentication interaction with a user.\nThe login flow operates in phases as more information is obtained. Eventually a 302 redirect will occur\nto pass control back to the requesting application.\n",
+      "operationId": "authAuthorize",
+      "parameters": [
+        {
+          "in": "cookie",
+          "name": "cxone_sso_state",
+          "description": "Optionally indicate current authentication state to the service.",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "format": "base64"
+          },
+          "example": "eyJnbG9iYWxfYmFubmVyX2hhc2giOiIwK1p1ZDNkUkg4U1FsV3JMbmtWZm5Wcm1MLzRTbmF2Y3FJZnNGQld3ejNnPSIsInJlc2VsbGVyX2Jhbm5lcl9oYXNoIjoiZzZwUFJQY1k1ZFFaUmkrZDJudnZrWXpONGhkVHE3SndzeUdLT3JVeS9VOD0iLCJ0ZW5hbnRfYmFubmVyX2hhc2giOiJzY3I1cGd3OTVFL0swZ1MxR0dvbmY3Z25NUTlYTW9ITmtGTzRtVWdBNnpnPSIsInVzZXJuYW1lIjoiYWxpY2UiLCJ0ZW5hbnRJZCI6InRhIn0="
+        }
+      ],
+      "requestBody": {
+        "description": "There are several different forms that can be submitted to this endpoint. Some of them are\nmostly mandated by the OpenID Connect specification. Differentiating the type of request is\ndone as follows in this order, with the first match determining the flow:\n* If there is a `client_id` property then this is an initial OIDC request.\n* All other submissions represent user interactions with a variety of different fields.\n",
+        "content": {
+          "application/x-www-form-urlencoded": {
+            "schema": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/authenticateOIDCRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/authenticateUXRequest"
+                }
+              ]
+            },
+            "examples": {
+              "oidc": {
+                "summary": "Authorization code flow.",
+                "value": "display=page&response_type=code&client_id=example_client_id&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb&scope=openid"
+              },
+              "ux": {
+                "summary": "User interactions for authentication.",
+                "value": "context=aba0c2e0-c42f-4e69-8cea-a8f9c1e06f60&state=eyJkaXNwbGF5IjoicGFnZSIsInJlZGlyZWN0X3VyaSI6Imh0dHA6Ly9zZHl&tenantFQDN=&username=alice&next=Next"
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "This response indicates that additional information is required to complete the authentication.",
+          "content": {
+            "text/html": {
+              "schema": {
+                "type": "string"
+              },
+              "example": " <!DOCTYPE html> <html>\n <body>\n <form action=\"/auth/authorize\" method=\"post\">\n \t<input type=\"hidden\" name=\"code\" value=\"{code}\">\n \t<input type=\"hidden\" id=\"username\" value=\"{username}\">\n \t<input type=\"text\" id=\"password\" name=\"password\">\n \t<input type=\"submit\" id=\"submit\" name=\"submit\" value=\"Login\">\n </form>\n </body>\n </html> "
+            }
+          }
+        },
+        "302": {
+          "description": "Next flow in the authentication process. This is used for either:\n* A user was already authenticated based on saved state and so a code is returned to the `redirect_uri`.\n* An error occurred, and so an error is returned to the `redirect_uri`.\n\nWhen redirecting to the caller's `redirect_uri` can include the following parameters as defined\nin the OpenID Connect specification:\n* code: Used to return an authorization code on success.\n* error: Used to return an error as defined in OpenID Connect.\n* error_description: Used to return a description of the error.\n\nThe error and error_description should *not* expose any details about the failure that could be used\nto refine an attack.\n",
+          "headers": {
+            "Set-Cookie": {
+              "description": "On a successful login (or to clear current state) store state for future authentications.",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "example": "cxone_sso_state=U29tZSBhdXRoZW50aWNhdGlvbiBzdGF0ZQ%3D%3D; Max-Age=604800; Path=/auth/authenticate; Secure; HttpOnly; SameSite=Lax"
+              }
+            },
+            "Location": {
+              "description": "This same flow is used for both errors and for successful authentication returning a code. Eventually a redirect to the `redirect_uri` will occur.",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "format": "url",
+                "example": "https://integrating-app.com/redirect_handler?code=e7772676-132e-41a5-90db-f6fa04fc601a&state=n-0S6_WzA2Mj"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "This is used in two cases as required by the OpenID Connect specification.\n1. The `client_id` parameter is required and is not present.\n1. The `redirect_uri` parameter is required and is not present, or is not valid.\n",
+          "content": {
+            "text/plain": {
+              "schema": {
+                "type": "string"
+              },
+              "examples": {
+                "no_client_id": {
+                  "summary": "No Client ID",
+                  "value": "The required client_id parameter was not provided."
+                },
+                "no_redirect_uri": {
+                  "summary": "No Redirect URI",
+                  "value": "The required redirect_uri parameter was no provided."
+                },
+                "invalid_redirect_uri": {
+                  "summary": "Invalid Redirect URI",
+                  "value": "The provided redirect_uri parameter is not valid."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "token": {
+    "post": {
+      "tags": [
+        "Token"
+      ],
+      "summary": "Retrieve tokens associated with authentication.",
+      "description": "This is a standard endpoint associated with\n[OpenID Connect](https://openid.net/specs/openid-connect-core-1_0.html) and defined by the\n[OAuth 2 standard](https://tools.ietf.org/html/rfc6749).\nThis is the *only* API that returns tokens.\nThere are four different uses of this API:\n* The OpenID Connect authorization code flow. In this case the OIDC standard parameters are followed, including PKCE support.\n  This requires either client basic authentication, post authentication, or PKCE protection.\n* Authentication using Access Keys, which follows OAuth 2 resource owner password credentials grants.\n  This requires either client basic authentication or post authentication.\n* Token refresh, which follows OAuth 2 and OIDC standards.\n  This does not require client authentication.\n\nThe specific client authentication requirements are outlined above and are not consistent\nacross the different uses of the single endpoint. Note that post authentication is covered as no security\nrequirement since it does not leverage the Authentication header.\n\nNote that with the support of PKCE protection that all of these flows *except* Access Keys\nallows client-based authentication (meaning directly from a single-page application, for\nexample). This is by design, and the reason for the exception for token refresh calls.\nAccess keys are specifically designed for back-end integrations and so the limitation\nshould not be impactful.\n\n> **NOTE that RFC 6749 (OAuth 2 Authorization) section 2.3.1 specifies that the client_id and client_password\n> are URL-encoded before concatenation with \":\" and being base 64 encoded. This is not the typical use of\n> Basic authentication and so it is called out here to avoid confusion.**\n",
+      "operationId": "getToken",
+      "security": [
+        {},
+        {
+          "tokenAuth": []
+        }
+      ],
+      "requestBody": {
+        "description": "This form contains the values corresponding to to the flow being requested.",
+        "content": {
+          "application/x-www-form-urlencoded": {
+            "schema": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/tokenAuthcodeRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/tokenAccessKeyRequest"
+                },
+                {
+                  "$ref": "#/components/schemas/tokenRefreshRequest"
+                }
+              ]
+            },
+            "examples": {
+              "OIDC-basic": {
+                "summary": "Authorization code flow, basic authentication.",
+                "value": "grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb\n"
+              },
+              "OIDC-post": {
+                "summary": "Authorization code flow, post authentication.",
+                "value": "client_id=s6BhdRkqt3&client_secret=ikaudfUkdaWQ&grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb\n"
+              },
+              "OIDC-pkce": {
+                "summary": "Authorization code flow, PKCE validation.",
+                "value": "client_id=s6BhdRkqt3&grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb&code_verifier=HereIsAnExampleStringNotVeryRandom\n"
+              },
+              "OIDC-refresh": {
+                "summary": "Refresh token request.",
+                "value": "client_id=s6BhdRkqt3&grant_type=refresh_token&refresh_token=iudnvUkjdfSS7Af67\n"
+              },
+              "AccessKey-basic": {
+                "summary": "Access key token request, basic authentication.",
+                "value": "grant_type=password&username=AJ26OWRCU6OR4MS2KQMV4GSDLCMDM5M7XN3XYXD7KXDFIFT6FFXA%3D%3D%3D%3D&password=C5UJHWRFOPDPWV7ZJQAZQRS5NJFIQLC5VD2SK6GKD6PHKI7OC6ZQ%3D%3D%3D%3D\n"
+              },
+              "AccessKey-post": {
+                "summary": "Access key token request, post authentication.",
+                "value": "client_id=s6BhdRkqt3&client_secret=ikaudfUkdaWQ&grant_type=password&username=AJ26OWRCU6OR4MS2KQMV4GSDLCMDM5M7XN3XYXD7KXDFIFT6FFXA%3D%3D%3D%3D&password=C5UJHWRFOPDPWV7ZJQAZQRS5NJFIQLC5VD2SK6GKD6PHKI7OC6ZQ%3D%3D%3D%3D\n"
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Success",
+          "headers": {
+            "Cache-Control": {
+              "description": "Header required by OpenID Connect specification.",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "no-store",
+                "enum": [
+                  "no-store"
+                ]
+              }
+            },
+            "Pragma": {
+              "description": "Header required by OpenID Connect specification.",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "no-cache",
+                "enum": [
+                  "no-cache"
+                ]
+              }
+            }
+          },
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "Token Response",
+                "type": "object",
+                "required": [
+                  "access_token",
+                  "token_type",
+                  "refresh_token",
+                  "expires_in",
+                  "id_token"
+                ],
+                "properties": {
+                  "access_token": {
+                    "type": "string",
+                    "description": "The access token granted."
+                  },
+                  "token_type": {
+                    "type": "string",
+                    "description": "The type of the access token.",
+                    "example": "Bearer"
+                  },
+                  "issued_token_type": {
+                    "type": "string",
+                    "description": "The type of token returned, required by RFC 8693 section 2.2.1.",
+                    "example": "urn:ietf:params:oauth:token-type:access_token"
+                  },
+                  "refresh_token": {
+                    "type": "string",
+                    "description": "The refresh token granted."
+                  },
+                  "expires_in": {
+                    "type": "integer",
+                    "description": "The number of seconds until the tokens expire.",
+                    "example": 3600
+                  },
+                  "id_token": {
+                    "type": "string",
+                    "format": "jwt",
+                    "description": "The identity token granted."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Failure",
+          "headers": {
+            "Cache-Control": {
+              "description": "Header required by OpenID Connect specification.",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "no-store",
+                "enum": [
+                  "no-store"
+                ]
+              }
+            },
+            "Pragma": {
+              "description": "Header required by OpenID Connect specification.",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "no-cache",
+                "enum": [
+                  "no-cache"
+                ]
+              }
+            }
+          },
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "Token Error Response",
+                "type": "object",
+                "required": [
+                  "error"
+                ],
+                "properties": {
+                  "error": {
+                    "type": "string",
+                    "description": "An error string, defined as part of the [OAuth 2 specification](https://www.rfc-editor.org/rfc/rfc6749.txt), section 5.2.",
+                    "enum": [
+                      "invalid_request",
+                      "invalid_client",
+                      "invalid_grant",
+                      "unauthorized_client",
+                      "unsupported_grant_type",
+                      "invalid_scope"
+                    ]
+                  },
+                  "error_description": {
+                    "type": "string",
+                    "description": "An optional error description."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "userinfo": {
+    "get": {
+      "tags": [
+        "Userinfo"
+      ],
+      "summary": "Get basic information about an authenticated user.",
+      "description": "Provide the OpenID Connect standard UserInfo endpoint. See the meets the specification of the\n[OpenID Connect Core Specification](https://openid.net/specs/openid-connect-core-1_0.html)\nsection 5.3.1 for details and section 5.1 for claim information. Note that the specification\ndefines this resource as an OAuth 2 Protected Resource and so the error returns are specified by\nboth the OIDC Core Specification as well as the\n[OAuth 2.0 Authorization Framework](https://www.rfc-editor.org/rfc/rfc6750.txt).\n",
+      "security": [
+        {
+          "userAuth": []
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "UserInfo Response",
+                "type": "object",
+                "properties": {
+                  "sub": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "given_name": {
+                    "type": "string"
+                  },
+                  "family_name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "sub": "user:11e9936a-ffe8-2090-8c4b-0242ac110005",
+                "name": "Ashadeepa Debnath",
+                "given_name": "Ashadeepa",
+                "family_name": "Debnath",
+                "email": "ashadeepa.debnath@nice.com"
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "Unauthorized",
+          "headers": {
+            "WWW-Authenticate": {
+              "description": "Header required by OAuth 2 specification.",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "error=\"invalid token\"",
+                "enum": [
+                  "error=\"invalid token\""
+                ]
+              }
+            },
+            "Cache-Control": {
+              "description": "Prevent caching.",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "no-store",
+                "enum": [
+                  "no-store"
+                ]
+              }
+            },
+            "Pragma": {
+              "description": "Prevent caching.",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "no-cache",
+                "enum": [
+                  "no-cache"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "post": {
+      "tags": [
+        "Userinfo"
+      ],
+      "summary": "Get basic information about an authenticated user.",
+      "description": "Provide the OpenID Connect standard UserInfo endpoint. See the meets the specification of the\n[OpenID Connect Core Specification](https://openid.net/specs/openid-connect-core-1_0.html)\nsection 5.3.1 for details and section 5.1 for claim information. Note that the specification\ndefines this resource as an OAuth 2 Protected Resource and so the error returns are specified by\nboth the OIDC Core Specification as well as the\n[OAuth 2.0 Authorization Framework](https://www.rfc-editor.org/rfc/rfc6750.txt).\n",
+      "security": [
+        {
+          "userAuth": []
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "UserInfo Response",
+                "type": "object",
+                "properties": {
+                  "sub": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "given_name": {
+                    "type": "string"
+                  },
+                  "family_name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "sub": "user:11e9936a-ffe8-2090-8c4b-0242ac110005",
+                "name": "Ashadeepa Debnath",
+                "given_name": "Ashadeepa",
+                "family_name": "Debnath",
+                "email": "ashadeepa.debnath@nice.com"
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "Unauthorized",
+          "headers": {
+            "WWW-Authenticate": {
+              "description": "Header required by OAuth 2 specification.",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "error=\"invalid token\"",
+                "enum": [
+                  "error=\"invalid token\""
+                ]
+              }
+            },
+            "Cache-Control": {
+              "description": "Prevent caching.",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "no-store",
+                "enum": [
+                  "no-store"
+                ]
+              }
+            },
+            "Pragma": {
+              "description": "Prevent caching.",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "no-cache",
+                "enum": [
+                  "no-cache"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "jwks": {
+    "get": {
+      "tags": [
+        "JWKS"
+      ],
+      "summary": "Get certificate information.",
+      "description": "Provide the OpenID Connect standard JWKS endpoint.",
+      "responses": {
+        "200": {
+          "description": "Success. A JWK Set as defined by [RFC 7517](https://tools.ietf.org/html/rfc7517) is returned.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "JWKS Response",
+                "type": "object",
+                "required": [
+                  "keys"
+                ],
+                "properties": {
+                  "keys": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "kty"
+                      ],
+                      "properties": {
+                        "kty": {
+                          "type": "string"
+                        },
+                        "use": {
+                          "type": "string",
+                          "enum": [
+                            "sig"
+                          ]
+                        },
+                        "alg": {
+                          "type": "string"
+                        },
+                        "kid": {
+                          "type": "string"
+                        },
+                        "n": {
+                          "type": "string"
+                        },
+                        "e": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "logout": {
+    "get": {
+      "tags": [
+        "Logout"
+      ],
+      "summary": "Request a logout of the CXone identity provider.",
+      "description": "Request a logout of the CXone identity provider. The user may be prompted for what to do.",
+      "parameters": [
+        {
+          "in": "query",
+          "name": "id_token_hint",
+          "schema": {
+            "type": "string",
+            "format": "jwt"
+          },
+          "description": "ID Token previously issued by the authentication service passed as a hint about the user's current session.\nThis can help idenify the user and identify the client application for verifying the post logout redirect URL.\n"
+        },
+        {
+          "in": "query",
+          "name": "post_logout_redirect_uri",
+          "schema": {
+            "type": "string",
+            "format": "url"
+          },
+          "description": "URL that the client is requesting that the agent be redirected to after logout. It must be registered with\nthe client associated with the current session. The use of this parameter requires that the `id_token_hint` \nparameter be supplied.\n"
+        },
+        {
+          "in": "query",
+          "name": "state",
+          "schema": {
+            "type": "string"
+          },
+          "description": "Optional state that will be passed to the redirect URL.\n"
+        },
+        {
+          "in": "query",
+          "description": "A choice list of locales for the UX.",
+          "name": "ui_locales",
+          "style": "spaceDelimited",
+          "explode": false,
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "example": "en-US en es jp"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "This response is used to both verify that the user wants to log out of the platform and to confirm that the logout has occurred if no redirect has been requested. It can also be used to indicate any error situations where the redirect cannot be used.",
+          "content": {
+            "text/html": {
+              "schema": {
+                "type": "string"
+              },
+              "examples": {
+                "ask": {
+                  "summary": "Ask the user whether to logout",
+                  "value": "<!DOCTYPE html> <html>\n<body>\n<form action=\"/auth/authorize/logout\" method=\"post\">\n\t<p>Do you want to log out of the CXone platform?</p>\n\t<input type=\"hidden\" name=\"id_token_hint\" value=\"{id_token_hint}\">\n\t<input type=\"hidden\" name=\"post_logout_redirect_uri\" value=\"{post_logout_redirect_uri}\">\n\t<input type=\"hidden\" name=\"state\" value=\"{state}\">\n\t<input type=\"submit\" id=\"no\" name=\"no\" value=\"No\">\n\t<input type=\"submit\" id=\"yes\" name=\"yes\" value=\"Yes\">\n</form>\n</body>\n</html>"
+                },
+                "finalize-yes": {
+                  "summary": "Verify that the user has been logged out",
+                  "value": "<!DOCTYPE html> <html>\n<body>\n<p>You have been successfully logged out. You may close this window.</p>\n</body>\n</html>"
+                },
+                "error": {
+                  "summary": "Indicate an error has occurred",
+                  "value": "<!DOCTYPE html> <html>\n<body>\n<p>An error has occurred due to an invalid logout request. You are not logged out. You may close this window.</p>\n</body>\n</html>"
+                }
+              }
+            }
+          },
+          "headers": {
+            "Set-Cookie": {
+              "description": "On a logout, clear state for future authentications.",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "example": "cxone_sso_state=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/auth/authorize; Secure; HttpOnly; SameSite=Lax"
+              }
+            }
+          }
+        },
+        "302": {
+          "description": "Logged out with requested redirect. This response is only used if the user is logged out of the CXone platform (they answered yes when asked).",
+          "headers": {
+            "Set-Cookie": {
+              "description": "On a logout, clear state for future authentications.",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "cxone_sso_state=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/auth/authorize; Secure; HttpOnly; SameSite=Lax"
+              }
+            },
+            "Location": {
+              "description": "The requested redirect location.",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "format": "url",
+                "example": "https://app.com/logoutComplete"
+              }
+            }
+          }
+        }
+      }
+    },
+    "post": {
+      "tags": [
+        "Logout"
+      ],
+      "summary": "Request a logout of the CXone identity provider.",
+      "description": "Request a logout of the CXone identity provider. The user may be prompted what to do next. The effect this has on other applications is not defined, but the next authentication request will prompt for user information. This endpoint follows the specification for [OpenID Connect RP-Initiatied Logout](https://openid.net/specs/openid-connect-rpinitiated-1_0.html).",
+      "requestBody": {
+        "description": "This form contains the values corresponding to to the flow being requested.",
+        "required": true,
+        "content": {
+          "application/x-www-form-urlencoded": {
+            "schema": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/logoutRequest"
+                }
+              ]
+            },
+            "examples": {
+              "initial": {
+                "summary": "Initial request for logout to start.",
+                "value": "id_token_hint=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c&post_logout_redirect_uri=https%3A%2F%2Fapp.com%2FlogoutComplete"
+              },
+              "affirmative": {
+                "summary": "Logout request completed.",
+                "value": "id_token_hint=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c&post_logout_redirect_uri=https%3A%2F%2Fapp.com%2FlogoutComplete&yes=Yes"
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "This response is used to both confirm that the logout has occurred if no redirect has been requested. It can also be used to indicate any error situations where the redirect cannot be used.",
+          "content": {
+            "text/html": {
+              "schema": {
+                "type": "string"
+              },
+              "examples": {
+                "finalize-yes": {
+                  "summary": "Verify that the user has been logged out",
+                  "value": "<!DOCTYPE html> <html>\n<body>\n<p>You have been successfully logged out. You may close this window.</p>\n</body>\n</html>"
+                },
+                "finalize-no": {
+                  "summary": "Verify that the user has not been logged out",
+                  "value": "<!DOCTYPE html> <html>\n<body>\n<p>You are still logged in. You may close this window.</p>\n</body>\n</html>"
+                },
+                "error": {
+                  "summary": "Indicate an error has occurred",
+                  "value": "<!DOCTYPE html> <html>\n<body>\n<p>An error has occurred due to an invalid logout request. You are not logged out. You may close this window.</p>\n</body>\n</html>"
+                }
+              }
+            }
+          },
+          "headers": {
+            "Set-Cookie": {
+              "description": "On a logout, clear state for future authentications.",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "example": "cxone_sso_state=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/auth/authorize; Secure; HttpOnly; SameSite=Lax"
+              }
+            }
+          }
+        },
+        "302": {
+          "description": "Logged out with requested redirect. This response is only used if the user is logged out of the CXone platform (they answered yes when asked).",
+          "headers": {
+            "Set-Cookie": {
+              "description": "On a logout, clear state for future authentications.",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "example": "cxone_sso_state=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/auth/authorize; Secure; HttpOnly; SameSite=Lax"
+              }
+            },
+            "Location": {
+              "description": "The requested redirect location.",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "format": "url",
+                "example": "https://app.com/logoutComplete"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "tokenAuth": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "userAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "The structure of the request was bad, meaning parameters were invalid or missing.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ERROR"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "The bearer token is improper, invalid, expired, etc.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ERROR"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "The user is not authorized to perform the action.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ERROR"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "The authentication cannot be found.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ERROR"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "ERROR": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "errorDescription": {
+            "type": "string"
+          }
+        }
+      },
+      "oidc-discovery": {
+        "title": "Reference OIDC Discovery",
+        "type": "object",
+        "properties": {
+          "issuer": {
+            "type": "string",
+            "description": "The issuer.",
+            "format": "url",
+            "enum": [
+              "https://cxone.niceincontact.com",
+              "https://cxone-gov.niceincontact.com"
+            ]
+          },
+          "authorization_endpoint": {
+            "type": "string",
+            "description": "The authorization endpoint.",
+            "format": "url"
+          },
+          "token_endpoint": {
+            "type": "string",
+            "description": "The token endpoint.",
+            "format": "url"
+          },
+          "token_endpoint_auth_methods_supported": {
+            "type": "array",
+            "description": "Token endpoint accepted authentication methods.",
+            "items": {
+              "type": "string",
+              "enum": [
+                "client_secret_basic"
+              ]
+            }
+          },
+          "token_endpoint_auth_signing_alg_values_supported": {
+            "type": "array",
+            "description": "The token signing values supported.",
+            "items": {
+              "type": "string",
+              "enum": [
+                "RS256"
+              ]
+            }
+          },
+          "end_session_endpoint": {
+            "type": "string",
+            "format": "url",
+            "description": "The logout endpoint."
+          },
+          "scopes_supported": {
+            "type": "array",
+            "description": "Supported scopes.",
+            "items": {
+              "type": "string",
+              "enum": [
+                "openid"
+              ]
+            }
+          },
+          "response_types_supported": {
+            "type": "array",
+            "description": "Supported response types.",
+            "items": {
+              "type": "string",
+              "enum": [
+                "code"
+              ]
+            }
+          },
+          "subject_types_supported": {
+            "type": "array",
+            "description": "Supported subject types.",
+            "items": {
+              "type": "string",
+              "enum": [
+                "public"
+              ]
+            }
+          },
+          "id_token_signing_alg_values_supported": {
+            "type": "array",
+            "description": "Supported token signing methods.",
+            "items": {
+              "type": "string",
+              "enum": [
+                "RS256"
+              ]
+            }
+          },
+          "request_object_signing_alg_values_supported": {
+            "type": "array",
+            "description": "Supported request signing methods.",
+            "items": {
+              "type": "string",
+              "enum": [
+                "none"
+              ]
+            }
+          },
+          "display_values_supported": {
+            "type": "array",
+            "description": "Supported display values.",
+            "items": {
+              "type": "string",
+              "enum": [
+                "page",
+                "popup"
+              ]
+            }
+          },
+          "claim_types_supported": {
+            "type": "array",
+            "description": "Supported claim types.",
+            "items": {
+              "type": "string",
+              "enum": [
+                "normal"
+              ]
+            }
+          }
+        }
+      },
+      "authenticateOIDCRequest": {
+        "type": "object",
+        "required": [
+          "scope",
+          "response_type",
+          "client_id",
+          "redirect_uri"
+        ],
+        "properties": {
+          "tenantId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Identify the tenant that is requesting authentication to allow customization by tenant.",
+            "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+          },
+          "resellerId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Identify the reseller that is requesting authentication to allow customization by reseller.",
+            "example": "3fa85f84-5717-4562-b3fc-2c963f77afa6"
+          },
+          "scope": {
+            "type": "string",
+            "enum": [
+              "openid"
+            ],
+            "description": "The requested scope properties, which must equal 'openid'."
+          },
+          "response_type": {
+            "type": "string",
+            "enum": [
+              "code"
+            ],
+            "description": "The response type requested for this flow. Currently only `code` is supported."
+          },
+          "client_id": {
+            "type": "string",
+            "description": "The client identifier of the application requesting authentication."
+          },
+          "redirect_uri": {
+            "type": "string",
+            "format": "url",
+            "description": "This is the redirect URL that will be followed after authentication.",
+            "example": "https://integrating-app.com/redirect_handler"
+          },
+          "state": {
+            "type": "string",
+            "description": "An optional state parameter that is owned by the client and will be passed back unmodified.",
+            "example": "af0ifjsldkj"
+          },
+          "nonce": {
+            "type": "string",
+            "description": "An optional nonce that is owned by the client and can be used to mitigate replay attacks.",
+            "example": "n-0S6_WzA2Mj"
+          },
+          "display": {
+            "type": "string",
+            "enum": [
+              "page",
+              "popup"
+            ],
+            "description": "An optional indicator of what type of display should be used.",
+            "default": "page"
+          },
+          "prompt": {
+            "type": "string",
+            "enum": [
+              "none",
+              "login"
+            ],
+            "description": "An optional indicator of whether interaction with the user is allowed.\nThe default behavior is a mix of the two, login will be used unless there is state\nfor a current user session.\n"
+          },
+          "max_age": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "An optional indicator of how recently the user must have authenticated in order\nto leverage a current user session. The value is in seconds. When used the ID token must include\nan `auth_time` claim.\n"
+          },
+          "id_token_hint": {
+            "type": "string",
+            "format": "jwt",
+            "description": "A previously received id_token that identifies the user who must authenticate.\nIf the identified user matches the state of `cxone_sso_state` as being currently logged in the no user interaction is required.\nIf the identity does not match or if there is no state available then a new session is started but must be constrained to authenticate the identified user.\nThis parameter takes priority over `login_hint` parameter if both are present.\n"
+          },
+          "login_hint": {
+            "type": "string",
+            "example": "alice",
+            "description": "A hint for an identifier for the user. This will be used as the username and identifies the user that must authenticate (it cannot be changed during authentication).\nThis parameter is ignored if the `id_token_hint` parameter is present.\n"
+          },
+          "acr_values": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "A space-separated list of authentication requirements that should be met by the user.\nThe values provided must not cause errors, but do not need to have any impact.\n"
+          },
+          "ui_locales": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "A space-separated choice list of locales for the UX.",
+            "example": "en-US en es jp"
+          },
+          "code_challenge": {
+            "type": "string",
+            "format": "base64",
+            "description": "A PKCE code challenge, described in section 4.3 of the [PKCE standard](https://tools.ietf.org/html/rfc7636).",
+            "example": "6DMH6winME%2ByLGKqYc%2BR0hicZbEyDTHfxaKc6o3BRjw"
+          },
+          "code_challenge_method": {
+            "type": "string",
+            "enum": [
+              "S256"
+            ],
+            "description": "A PKCE code challenge method, described in section 4.3 of the [PKCE standard]()."
+          }
+        }
+      },
+      "authenticateUXRequest": {
+        "type": "object",
+        "required": [
+          "tenantFQDN",
+          "state"
+        ],
+        "properties": {
+          "tenantFQDN": {
+            "type": "string",
+            "description": "This is used to specify the tenant FQDN to customize the login experience. It has the same effect as passing the tenantId parameter.",
+            "example": "tenant.my.niceincontact.com"
+          },
+          "username": {
+            "type": "string",
+            "description": "This is the username for the authentication request.",
+            "example": "user@globalauthservice.com"
+          },
+          "state": {
+            "type": "string",
+            "format": "base64",
+            "description": "This is an encapsulation of all the state associated with the authentication request.",
+            "example": "VGhpcyBpcyB3aGF0ZXZlciBzdGF0ZSBpcyBuZWVkZWQ="
+          }
+        }
+      },
+      "tokenAuthcodeRequest": {
+        "type": "object",
+        "required": [
+          "grant_type",
+          "code",
+          "redirect_uri"
+        ],
+        "properties": {
+          "client_id": {
+            "type": "string",
+            "description": "The client identifier, required for `client_secret_post` method."
+          },
+          "client_secret": {
+            "type": "string",
+            "description": "The client secret, required for `client_secret_post` method."
+          },
+          "grant_type": {
+            "type": "string",
+            "description": "The type of grant.",
+            "enum": [
+              "authorization_code"
+            ]
+          },
+          "code": {
+            "type": "string",
+            "description": "The code returned to the caller."
+          },
+          "redirect_uri": {
+            "type": "string",
+            "description": "The redirect_uri used in the request."
+          },
+          "code_verifier": {
+            "type": "string",
+            "description": "A PKCE code verifier defined in section 4.6 of the [PKCE standard](https://tools.ietf.org/html/rfc7636)."
+          }
+        }
+      },
+      "tokenAccessKeyRequest": {
+        "type": "object",
+        "required": [
+          "grant_type",
+          "username",
+          "password"
+        ],
+        "properties": {
+          "client_id": {
+            "type": "string",
+            "description": "The client_id, required for `client_secret_post` method."
+          },
+          "client_secret": {
+            "type": "string",
+            "description": "The client_secret, required for `client_secret_post` method."
+          },
+          "grant_type": {
+            "type": "string",
+            "enum": [
+              "password"
+            ]
+          },
+          "username": {
+            "type": "string",
+            "description": "Contains the public information of the access key."
+          },
+          "password": {
+            "type": "string",
+            "description": "Contains the private information of the access key."
+          }
+        }
+      },
+      "tokenRefreshRequest": {
+        "type": "object",
+        "required": [
+          "client_id",
+          "grant_type",
+          "refresh_token"
+        ],
+        "properties": {
+          "client_id": {
+            "type": "string",
+            "description": "The client_id."
+          },
+          "grant_type": {
+            "type": "string",
+            "enum": [
+              "refresh_token"
+            ]
+          },
+          "refresh_token": {
+            "type": "string"
+          }
+        }
+      },
+      "logoutRequest": {
+        "title": "Logout Request",
+        "type": "object",
+        "properties": {
+          "id_token_hint": {
+            "type": "string",
+            "format": "jwt",
+            "description": "ID Token previously issued by the authentication service passed as a hint about the user's current session.\nThis can help idenify the user and identify the client application for verifying the post logout redirect URL.\n"
+          },
+          "post_logout_redirect_uri": {
+            "type": "string",
+            "format": "url",
+            "description": "URL that the client is requesting that the agent be redirected to after logout. It must be registered with\nthe client associated with the current session. The use of this parameter requires that the `id_token_hint` \nparameter be supplied.\n"
+          },
+          "state": {
+            "type": "string",
+            "description": "Optional state that will be passed to the redirect URL.\n"
+          },
+          "ui_locales": {
+            "description": "A choice list of locales for the UX.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": "en-US en es jp"
+          },
+          "yes": {
+            "type": "string",
+            "description": "The user's response about logging out when a logout should occur.\n"
+          },
+          "no": {
+            "type": "string",
+            "description": "The user's response about logging out when no logout should occur.\n"
+          }
+        }
+      }
+    },
+    "examples": {
+      "oidc-discovery": {
+        "description": "Example OIDC discovery",
+        "value": {
+          "issuer": "https://cxone.niceincontact.com",
+          "authorization_endpoint": "https://cxone.niceincontact.com/auth/authorize",
+          "token_endpoint": "https://cxone.niceincontact.com/auth/token",
+          "jwks_uri": "https://cxone.niceincontact.com/auth/jwks",
+          "token_endpoint_auth_methods_supported": [
+            "client_secret_basic"
+          ],
+          "token_endpoint_auth_signing_alg_values_supported": [
+            "RS256"
+          ],
+          "end_session_endpoint": "https://cxone.niceincontact.com/auth/authorize/logout",
+          "scopes_supported": [
+            "openid"
+          ],
+          "response_types_supported": [
+            "code"
+          ],
+          "subject_types_supported": [
+            "public"
+          ],
+          "id_token_signing_alg_values_supported": [
+            "RS256"
+          ],
+          "request_object_signing_alg_values_supported": [
+            "none"
+          ],
+          "display_values_supported": [
+            "page",
+            "popup"
+          ],
+          "claim_types_supported": [
+            "normal"
+          ],
+          "code_challenge_methods_supported": [
+            "S256"
+          ]
+        }
+      }
+    }
+  }
+}

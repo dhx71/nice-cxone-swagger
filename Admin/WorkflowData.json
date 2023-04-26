@@ -1,0 +1,483 @@
+﻿{
+  "workflow-data_list_activeFlag": {
+    "get": {
+      "tags": [ "WorkflowData" ],
+      "summary": "Get a list of Workflow Data Profiles based on the active flag",
+      "description": "Get a list of Workflow Data Profiles based on the active flag. <div class='tabs_wrapper' data-path='admin_workflow_activeFlag.html'></div>",
+      "operationId": "list-workflow-data",
+      "parameters": [
+        {
+          "name": "activeFlag",
+          "in": "path",
+          "description": "All = 0, Active = 1, Inactive = 2",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "schema": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "profile": {
+                "type": "object",
+                "properties": {
+                  "ProfileName": {
+                    "type": "string",
+                    "description": "The name of the profile"
+                  },
+                  "Description": {
+                    "type": "string",
+                    "description": "A description of the profile"
+                  },
+                  "ProfileID": {
+                    "type": "integer",
+                    "description": "Identifier of the profile"
+                  }
+                }
+              },
+              "data": {
+                "type": "object",
+                "properties": {
+                  "Value": {
+                    "type": "string",
+                    "additionalProperties": true,
+                    "description": "data object value"
+                  },
+                  "Visible": {
+                    "type": "string",
+                    "additionalProperties": false,
+                    "description": "whether data object is visible (either \"1\" or \"0\")"
+                  },
+                  "Type": {
+                    "type": "string",
+                    "additionalProperties": false,
+                    "description": "the type of object"
+                  },
+                  "Ref": {
+                    "type": "string",
+                    "additionalProperties": false,
+                    "description": "reference to another data object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "Unauthorized"
+        },
+        "429": {
+          "description": "Api Rate Exceeded"
+        },
+        "500": {
+          "description": "Internal Server Error"
+        }
+      }
+    }
+  },
+  "workflow-data": {
+    "post": {
+      "tags": [ "WorkflowData" ],
+      "summary": "Create a new Workflow Data Profile",
+      "description": "Create a new Workflow Data Profile.<div class='tabs_wrapper' data-path='admin_workflow_postworkflow.html'></div>",
+      "operationId": "create-workflow-data",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "in": "body",
+          "name": "profiles",
+          "schema": {
+            "type": "dynamicData",
+            "properties": {
+              "profile": {
+                "type": "object",
+                "properties": {
+                  "ProfileName": {
+                    "type": "string",
+                    "description": "The name of the profile"
+                  },
+                  "Description": {
+                    "type": "string",
+                    "description": "A description of the profile"
+                  },
+                  "ProfileID": {
+                    "type": "integer",
+                    "description": "Identifier of the profile"
+                  }
+                }
+              },
+              "data": {
+                "type": "object",
+                "properties": {
+                  "date": {
+                    "type": "object",
+                    "properties": {
+                      "Value": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "data object value"
+                      },
+                      "Visible": {
+                        "type": "string",
+                        "additionalProperties": false,
+                        "description": "whether data object is visible (either \"1\" or \"0\")"
+                      },
+                      "Type": {
+                        "type": "string",
+                        "additionalProperties": false,
+                        "description": "the type of object"
+                      },
+                      "Ref": {
+                        "type": "string",
+                        "additionalProperties": false,
+                        "description": "reference to another data object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "content": {
+            "text/plain": {
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid Workflow Data Object"
+        },
+        "401": {
+          "description": "Unauthorized"
+        },
+        "403": {
+          "description": "Total Profiles Limit Exceeded"
+        },
+        "429": {
+          "description": "ApiRateExceeded"
+        },
+        "500": {
+          "description": "Internal Server Error"
+        }
+      }
+    },
+    "put": {
+      "tags": [ "WorkflowData" ],
+      "summary": "Update a Workflow Data Profile",
+      "description": "Update a Workflow Data Profile.<div class='tabs_wrapper' data-path='admin_workflow_putworkflowbyid.html'></div>",
+      "operationId": "update-workflow-data",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "in": "body",
+          "name": "profiles",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "profile": {
+                "type": "object",
+                "properties": {
+                  "ProfileName": {
+                    "type": "string",
+                    "description": "The name of the profile"
+                  },
+                  "Description": {
+                    "type": "string",
+                    "description": "A description of the profile"
+                  },
+                  "ProfileID": {
+                    "type": "integer",
+                    "description": "Identifier of the profile"
+                  }
+                }
+              },
+              "data": {
+                "type": "object",
+                "properties": {
+                  "date": {
+                    "type": "object",
+                    "properties": {
+                      "Value": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "data object value"
+                      },
+                      "Visible": {
+                        "type": "string",
+                        "additionalProperties": false,
+                        "description": "whether data object is visible (either \"1\" or \"0\")"
+                      },
+                      "Type": {
+                        "type": "string",
+                        "additionalProperties": false,
+                        "description": "The type of object. Only accepts: None, Boolean, Date, Decimal, Integer, String, Phone, Email, MultiSelect, StringArray, NumericArray, DateTimeRange"
+                      },
+                      "Ref": {
+                        "type": "string",
+                        "additionalProperties": false,
+                        "description": "reference to another data object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success"
+        },
+        "400": {
+          "description": "Invalid Workflow Data Object"
+        },
+        "401": {
+          "description": "Unauthorized"
+        },
+        "404": {
+          "description": "Workflow Data Profile Not Found"
+        },
+        "429": {
+          "description": "API Rate Exceeded"
+        },
+        "500": {
+          "description": "Internal Server Error"
+        }
+      }
+    }
+  },
+  "workflow-data_workflowDataId": {
+    "get": {
+      "tags": [ "WorkflowData" ],
+      "summary": "Get a Workflow Data Profile",
+      "description": "Get a Workflow Data Profile.<div class='tabs_wrapper' data-path='admin_workflow_getworkflowbyid.html'></div>",
+      "operationId": "get-workflow-data",
+      "parameters": [
+        {
+          "name": "workflowDataId",
+          "in": "path",
+          "description": "Id of a Workflow Data Profile",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "schema": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "profile": {
+                "type": "object",
+                "properties": {
+                  "ProfileName": {
+                    "type": "string",
+                    "description": "The name of the profile"
+                  },
+                  "Description": {
+                    "type": "string",
+                    "description": "A description of the profile"
+                  },
+                  "ProfileID": {
+                    "type": "integer",
+                    "description": "Identifier of the profile"
+                  }
+                }
+              },
+              "data": {
+                "type": "object",
+                "properties": {
+                  "Value": {
+                    "type": "string",
+                    "additionalProperties": true,
+                    "description": "data object value"
+                  },
+                  "Visible": {
+                    "type": "string",
+                    "additionalProperties": false,
+                    "description": "whether data object is visible (either \"1\" or \"0\")"
+                  },
+                  "Type": {
+                    "type": "string",
+                    "additionalProperties": false,
+                    "description": "the type of object"
+                  },
+                  "Ref": {
+                    "type": "string",
+                    "additionalProperties": false,
+                    "description": "reference to another data object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "Unauthorized"
+        },
+        "404": {
+          "description": "Profile not found"
+        },
+        "429": {
+          "description": "Api Rate Exceeded"
+        },
+        "500": {
+          "description": "Internal Server Error"
+        }
+      }
+    }
+  },
+  "workflow-data_workflowDataId_deactivate": {
+    "put": {
+      "tags": [ "WorkflowData" ],
+      "summary": "Deactivate a Workflow Data Profile",
+      "description": "Deactivate a Workflow Data Profile.<div class='tabs_wrapper' data-path='admin_workflow_deactivate.html'></div>",
+      "operationId": "deactivate-workflow-data",
+      "parameters": [
+        {
+          "name": "workflowDataId",
+          "in": "path",
+          "description": "Id of a Workflow Data Profile",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "schema": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success"
+        },
+        "401": {
+          "description": "Unauthorized"
+        },
+        "404": {
+          "description": "Workflow Data Profile Not Found"
+        },
+        "429": {
+          "description": "API Rate Exceeded"
+        },
+        "500": {
+          "description": "Internal Server Error"
+        }
+      }
+    }
+  },
+  "workflow-data_workflowDataId_activate": {
+    "put": {
+      "tags": [ "WorkflowData" ],
+      "summary": "Activate a Workflow Data Profile",
+      "description": "Activate a Workflow Data Profile.<div class='tabs_wrapper' data-path='admin_workflow_activate.html'></div>",
+      "operationId": "activate-workflow-data",
+      "parameters": [
+        {
+          "name": "workflowDataId",
+          "in": "path",
+          "description": "Id of a Workflow Data Profile",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "schema": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success"
+        },
+        "401": {
+          "description": "Unauthorized"
+        },
+        "404": {
+          "description": "Workflow Data Profile Not Found"
+        },
+        "429": {
+          "description": "API Rate Exceeded"
+        },
+        "500": {
+          "description": "Internal Server Error"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "parameters": {
+      "Value": {
+          "name": "Value",
+          "type": "string",
+          "description": "data object value",
+          "in": "path"
+        },
+      "Visible": {
+        "name": "Visible",
+        "type": "integer",
+        "description": "whether data object is visible (either \"1\" or \"0\")",
+        "in": "path"
+      },
+      "Type": {
+          "name": "Type",
+          "type": "string",
+          "description": "the type of object",
+           "in": "path"
+        },
+      "Ref": {
+        "name": "Ref",
+        "type": "string",
+        "description": "reference to another data object",
+        "in": "path"
+      },
+      "ProfileName": {
+        "name": "ProfileName",
+        "type": "string",
+        "description": "The name of the profile",
+        "in": "path"
+      },
+      "Description": {
+        "name": "Description",
+        "type": "string",
+        "description": "A description of the profile",
+        "in": "path"
+      },
+      "ProfileID": {
+        "name": "ProfileID",
+        "type": "integer",
+        "description": "Identifier of the profile",
+        "in": "path"
+      }
+      }
+    }
+}

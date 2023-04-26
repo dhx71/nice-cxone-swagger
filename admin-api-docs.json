@@ -1,0 +1,546 @@
+﻿{
+
+  "swagger": "2.0",
+
+  "info": {
+    "description": "Admin commands",
+    "version": "9.0",
+    "title": "AdminAPI"
+  },
+  "tags": [
+    {
+      "name": "AddressBook",
+      "description": " : Address Book Management"
+    },
+    {
+      "name": "Agents",
+      "description": " : Agent Management"
+    },
+    {
+      "name": "Contacts",
+      "description": " : General Contact Management"
+    },
+    {
+      "name": "General",
+      "description": ": General Admin Management"
+    },
+    {
+      "name": "Groups",
+      "description": " : Group Management"
+    },
+    {
+      "name": "List",
+      "description": " : Calling/DNC Group Management"
+    },
+    {
+      "name": "Commitments",
+      "description": " : Scheduled Callback Management"
+    },
+    {
+      "name": "Skills",
+      "description": " : Skill/Campaign Management"
+    },
+    {
+      "name": "WorkflowData",
+      "description": " : Management of Workflow Data Profiles"
+    }
+  ],
+  "schemes": [ "https" ],
+  "paths": {
+    "/address-books": {
+      "$ref": "Admin/AddressBook.json#/address-books"
+    },
+    "/address-books/{addressBookId}": {
+      "$ref": "Admin/AddressBook.json#/address-books_addressbooksid"
+    },
+    "/address-books/{addressBookId}/agents/assigned": {
+      "$ref": "Admin/AddressBook.json#/address-books_addressbookid_agents_assigned"
+    },
+    "/address-books/{addressBookId}/agents/unassigned": {
+      "$ref": "Admin/AddressBook.json#/address-books_addressbookid_agents_unassigned"
+    },
+    "/address-books/{addressBookId}/assignment": {
+      "$ref": "Admin/AddressBook.json#/address-books_addressbooksid_assignment"
+    },
+    "/address-books/{addressBookId}/dynamic-entries": {
+      "$ref": "Admin/AddressBook.json#/address-books_addressbooksid_dynamic"
+    },
+    "/address-books/{addressBookId}/dynamic-entries/{externalId}": {
+      "$ref": "Admin/AddressBook.json#/address-books_addressbooksid_dynamic_external"
+    },
+    "/address-books/{addressBookId}/entries": {
+      "$ref": "Admin/AddressBook.json#/address-books_addressbooksid_entries"
+    },
+    "/address-books/{addressBookId}/entries/{addressBookEntryId}": {
+      "$ref": "Admin/AddressBook.json#/address-books_addressbooksid_entries_entryid"
+    },
+    "/agents/{agentId}/address-books": {
+      "$ref": "Admin/AddressBook.json#/agents_agentId_addressbooks"
+    },
+    "/agents": {
+      "$ref": "Admin/Agents.json#/agents"
+    },
+    "/agents/{agentId|userId}": {
+      "$ref": "Admin/Agents.json#/agents_agentId"
+    },
+    "/agents/{agentId}/state": {
+      "$ref": "Admin/Agents.json#/agents-agentId-state"
+    },
+    "/agents/skills": {
+      "$ref": "Admin/Agents.json#/agents_skills"
+    },
+    "/agents/{agentId}/groups": {
+      "$ref": "Admin/Agents.json#/agents_agentid_groups"
+    },
+    "/agents/{agentId|userId}/skills": {
+      "$ref": "Admin/Agents.json#/agents_agentId_skills"
+    },
+    "/agents/{agentId}/skills/unassigned": {
+      "$ref": "Admin/Agents.json#/agents-agentId-skills-unassigned"
+    },
+    "/agents/skill-data": {
+      "$ref": "Admin/Agents.json#/agents_skills_data"
+    },
+    "/agents/{agentId}/skill-data": {
+      "$ref": "Admin/Agents.json#/agents_agentId_skill_data"
+    },
+    "/agents/{agentId}/custom-event": {
+      "$ref": "Admin/Agents.json#/agents_agentId_custom-event"
+    },
+    "/agents/quick-replies": {
+      "$ref": "Admin/Agents.json#/agents_quick_replies"
+    },
+    "/agents/{agentId}/quick-replies": {
+      "$ref": "Admin/Agents.json#/agents_agentId_quick_replies"
+    },
+    "/agents/messages": {
+      "$ref": "Admin/Agents.json#/agents_messages"
+    },
+    "/agents/messages/{messageId}": {
+      "$ref": "Admin/Agents.json#/agents_messages_messageId"
+    },
+    "/agents/{agentId}/messages": {
+      "$ref": "Admin/Agents.json#/agents_agentId_messages"
+    },
+    "/agents/{agentId}/indicators": {
+      "$ref": "Admin/Agents.json#/agents_agentId_indicators"
+    },
+    "/agents/{agentId}/logout": {
+      "$ref": "Admin/Agents.json#/agents_agentId_logout"
+    },
+    "/agents/{agentId}/scheduled-callbacks": {
+      "$ref": "Admin/Commitments.json#/agents_agentId_scheduled_callbacks"
+    },
+    "/agent-patterns": {
+      "$ref": "Admin/Agents.json#/agent-patterns"
+    },
+    "/agent-patterns/{agentpatternId}/transform-phonenumbers": {
+      "$ref": "Admin/Agents.json#/agent-patterns_agentpatternid_transform-phonenumbers"
+    },
+    "/agents-states": {
+      "$ref": "Admin/Agents.json#/agents_states"
+    },
+    "/agents/extended": {
+      "$ref": "Admin/Agents.json#/agents_extended"
+    },
+    "/agents/issues": {
+      "$ref": "Admin/Agents.json#/agents_issues"
+    },
+    "/agent-messages/{messageGroupId}": {
+      "$ref": "Admin/Agents.json#/agent-messages_messagegroupid"
+    },
+    "/agents/skills-download": {
+      "$ref": "Admin/Agents.json#/agents_skills-download"
+    },
+    "/branding-profiles": {
+      "$ref": "Admin/General.json#/branding-profiles"
+    },
+    "/business-unit": {
+      "$ref": "Admin/General.json#/business_unit"
+    },
+    "/business-unit/outbound-routes": {
+      "$ref": "Admin/General.json#/business-unit_outbound-routes"
+    },
+    "/campaigns": {
+      "$ref": "Admin/Skills.json#/campaigns"
+    },
+    "/campaigns/{campaignId}": {
+      "$ref": "Admin/Skills.json#/campaigns_campaignId"
+    },
+    "/campaigns/{campaignId}/address-books": {
+      "$ref": "Admin/AddressBook.json#/campaigns_campaignid_addressbooks"
+    },
+    "/contacts/{contactId}/chat-transcript": {
+      "$ref": "Admin/Contacts.json#/contacts_contactId_chat_transcript"
+    },
+    "/contacts/{contactId}/historical-chat-transcript": {
+      "$ref": "Admin/Contacts.json#/contacts_contactid_historical-chat-transcript"
+    },
+    "/contacts/{contactId}/email-transcript": {
+      "$ref": "Admin/Contacts.json#/contacts-contactId-email-transcript"
+    },
+    "/contacts/{contactId}/files": {
+      "$ref": "Admin/Contacts.json#/contacts_contactId_files"
+    },
+    "/contacts/{contactId}/end": {
+      "$ref": "Admin/Contacts.json#/contacts_contactId_end"
+    },
+    "/contacts/{contactId}/monitor": {
+      "$ref": "Admin/Contacts.json#/contacts_contactId_monitor"
+    },
+    "/contacts/{contactId}/record": {
+      "$ref": "Admin/Contacts.json#/contacts_contactId_record"
+    },
+    "/contacts/{contactId}/set-disposition": {
+      "$ref": "Admin/Contacts.json#/contacts_contactid_set-disposition"
+    },
+    "/contacts/{contactId}/tags": {
+      "$ref": "Admin/Contacts.json#/contacts-contactId-tags"
+    },
+    "/contact-state-descriptions": {
+      "$ref": "Admin/Contacts.json#/contact_state_description"
+    },
+    "/contact-state-descriptions/{contactStateId}": {
+      "$ref": "Admin/Contacts.json#/contact_state_descriptions_stateId"
+    },
+    "/persistent-contacts/{contactId}": {
+      "$ref": "Admin/Contacts.json#/persistent-contacts_contactid"
+    },
+    "/agents/{agentId}/agent-settings": {
+      "$ref": "Admin/General.json#/agents_agentid_agent-settings"
+    },
+    "/countries": {
+      "$ref": "Admin/General.json#/countries"
+    },
+    "/countries/{countryId}/states": {
+      "$ref": "Admin/General.json#/countries-countryId-states"
+    },
+    "/data-definitions/data-types": {
+      "$ref": "Admin/General.json#/data-definitions-data-types"
+    },
+    "/dispositions": {
+      "$ref": "Admin/General.json#/dispositions"
+    },
+    "/dispositions/skills": {
+      "$ref": "Admin/Skills.json#/dispositions_skills"
+    },
+    "/dispositions/{dispositionId}": {
+      "$ref": "Admin/Skills.json#/dispositions_dispositionid"
+    },
+    "/dispositions/classifications": {
+      "$ref": "Admin/Skills.json#/dispositions_classifications"
+    },
+    "/dnc-groups": {
+      "$ref": "Admin/Lists.json#/dnc_groups"
+    },
+    "/dnc-groups/{groupId}": {
+      "$ref": "Admin/Lists.json#/dnc_groups_groupId"
+    },
+    "/dnc-groups/{groupId}/contributing-skills": {
+      "$ref": "Admin/Lists.json#/dnc_groups_groupId_contributing_skills"
+    },
+    "/dnc-groups/{groupId}/contributing-skills/{skillId}": {
+      "$ref": "Admin/Lists.json#/dnc_groups_groupId_contributing_skill"
+    },
+    "/dnc-groups/{groupId}/records": {
+      "$ref": "Admin/Lists.json#/dnc_groups_groupId_records"
+    },
+    "/dnc-groups/{groupId}/scrubbed-skills": {
+      "$ref": "Admin/Lists.json#/dnc_groups_groupId_scrubbed_skills"
+    },
+    "/dnc-groups/{groupId}/scrubbed-skills/{skillId}": {
+      "$ref": "Admin/Lists.json#/dnc_groups_groupId_scrubbed_skill"
+    },
+    "/dnc-groups/search": {
+      "$ref": "Admin/Lists.json#/dnc_groups_search"
+    },
+    "/dnis": {
+      "$ref": "Admin/Lists.json#/dnis"
+    },
+    "/files": {
+      "$ref": "Admin/General.json#/files"
+    },
+    "/files/external": {
+      "$ref": "Admin/General.json#/files_external"
+    },
+    "/folders": {
+      "$ref": "Admin/General.json#/folders"
+    },
+    "/feedback-categories-and-priorities": {
+      "$ref": "Admin/General.json#/feedback_categories_and_priorities"
+    },
+    "/groups": {
+      "$ref": "Admin/Groups.json#/groups"
+    },
+    "/groups/{groupId}": {
+      "$ref": "Admin/Groups.json#/groups_groupid"
+    },
+    "/groups/{groupId}/agents": {
+      "$ref": "Admin/Groups.json#/groups_groupid_agents"
+    },
+    "/hiring-sources": {
+      "$ref": "Admin/General.json#/hiring-sources"
+    },
+    "/hours-of-operation": {
+      "$ref": "Admin/General.json#/hours_of_operation"
+    },
+    "/hours-of-operation/{profileId}": {
+      "$ref": "Admin/General.json#/hours_of_operation_profileId"
+    },
+    "/interactions/{contactId}/signal": {
+      "$ref": "Admin/Contacts.json#/interactions_contactId_signal"
+    },
+    "/lists/call-lists": {
+      "$ref": "Admin/Lists.json#/lists_call_lists"
+    },
+    "/lists/call-lists/{listId}": {
+      "$ref": "Admin/Lists.json#/lists_call_lists_listId"
+    },
+    "/lists/call-lists/{listId}/attempts": {
+      "$ref": "Admin/Lists.json#/lists_call_lists_listId_attempts"
+    },
+    "/lists/call-lists/{listId}/upload": {
+      "$ref": "Admin/Lists.json#/lists_call-lists_listId_upload"
+    },
+    "/lists/call-lists/{sourceName}/removeProspects": {
+      "$ref": "Admin/Lists.json#/lists_call-lists_sourcename_removeprospects"
+    },
+    "/locations": {
+      "$ref": "Admin/General.json#/locations"
+    },
+    "/lists/call-lists/jobs": {
+      "$ref": "Admin/Lists.json#/lists_call-lists_jobs"
+    },
+    "/lists/call-lists/jobs/{jobId}": {
+      "$ref": "Admin/Lists.json#/lists_call-lists_jobs_jobid"
+    },
+    "/media-types": {
+      "$ref": "Admin/General.json#/media_types"
+    },
+    "/media-types/{mediaTypeId}": {
+      "$ref": "Admin/General.json#/media_types_mediaTypeId"
+    },
+    "/message-templates": {
+      "$ref": "Admin/General.json#/message-templates"
+    },
+    "/message-templates/{templateId}": {
+      "$ref": "Admin/General.json#/message-templates-templateId"
+    },
+    "/permissions": {
+      "$ref": "Admin/General.json#/permissions"
+    },
+    "/permissions/{agentId}": {
+      "$ref": "Admin/General.json#/permissions_agentId"
+    },
+    "/phone-codes": {
+      "$ref": "Admin/General.json#/phone-codes"
+    },
+    "/points-of-contact": {
+      "$ref": "Admin/General.json#/points_of_contact"
+    },
+    "/points-of-contact/{pointOfContactId}": {
+      "$ref": "Admin/General.json#/points_of_contact_pointOfContactId"
+    },
+    "/security-profiles": {
+      "$ref": "Admin/General.json#/security-profiles"
+    },
+    "/security-profiles/{profileId}": {
+      "$ref": "Admin/General.json#/security-profiles-profileId"
+    },
+    "/scripts": {
+      "$ref": "Admin/General.json#/scripts"
+    },
+    "/scripts/{scriptId}": {
+      "$ref": "Admin/General.json#/scripts_scriptid"
+    },
+    "/scripts/search": {
+      "$ref": "Admin/General.json#/scripts_search"
+    },
+    "/scripts/files": {
+      "$ref": "Admin/General.json#/scripts%2Ffiles"
+    },
+    "/scripts/files/search": {
+      "$ref": "Admin/General.json#/scripts%2Ffiles%2Fsearch"
+    },
+    "/scripts/kick": {
+      "$ref": "Admin/General.json#/scripts_kick"
+    },
+    "/scripts/historyByName": {
+      "$ref": "Admin/General.json#/scripts_historyByName"
+    },
+    "/scripts/{scriptId}/start": {
+      "$ref": "Admin/General.json#/script_scriptId_start"
+    },
+    "/scheduled-callbacks": {
+      "$ref": "Admin/Commitments.json#/scheduled_callbacks"
+    },
+    "/scheduled-callbacks/{callbackId}": {
+      "$ref": "Admin/Commitments.json#/scheduled_callbacks_callbackId"
+    },
+    "/server-time": {
+      "$ref": "Admin/General.json#/server_time"
+    },
+    "/skills/{skillId}/scheduled-callbacks": {
+      "$ref": "Admin/Commitments.json#/skills_skillId_scheduled_callbacks"
+    },
+    "/skills": {
+      "$ref": "Admin/Skills.json#/skills"
+    },
+    "/skills/parameters": {
+      "$ref": "Admin/Skills.json#/skills_parameters"
+    },
+    "/skills/{skillId}": {
+      "$ref": "Admin/Skills.json#/skills_skillId"
+    },
+    "/skills/{skillId}/parameters": {
+      "$ref": "Admin/Skills.json#/skills_skillid_parameters"
+    },
+    "/skills/{skillId}/thank-you-page": {
+      "$ref": "Admin/Skills.json#/skills_skillid_thank-you-page"
+    },
+    "/skills/{skillId}/address-books": {
+      "$ref": "Admin/AddressBook.json#/skills_skillid_addressbooks"
+    },
+    "/skills/{skillId}/start": {
+      "$ref": "Admin/Skills.json#/skills_skillId_start"
+    },
+    "/skills/{skillId}/stop": {
+      "$ref": "Admin/Skills.json#/skills_skillId_stop"
+    },
+    "/skills/agents": {
+      "$ref": "Admin/Skills.json#/skills_agents"
+    },
+    "/skills/{skillId}/agents": {
+      "$ref": "Admin/Skills.json#/skills_skillId_agents"
+    },
+    "/skills/{skillId}/agents/{agentId}": {
+      "$ref": "Admin/Skills.json#/skills_skillid_agents_agentid"
+    },
+    "/skills/{skillId}/agents/unassigned": {
+      "$ref": "Admin/Skills.json#/skills-skillId-agents-unassigned"
+    },
+    "/skills/call-data": {
+      "$ref": "Admin/Skills.json#/skills_call_data"
+    },
+    "/skills/{skillId}/call-data": {
+      "$ref": "Admin/Skills.json#/skills_skillId_call_data"
+    },
+    "/skills/{skillId}/dispositions": {
+      "$ref": "Admin/Skills.json#/skills_skillId_dispositions"
+    },
+    "/skills/{skillId}/dispositions/unassigned": {
+      "$ref": "Admin/Skills.json#/skills-skillId-dispositions-unassigned"
+    },
+    "/skills/{skillId}/tags": {
+      "$ref": "Admin/Skills.json#/skills-skillId-tags"
+    },
+    "/skills/{skillId}/parameters/general-settings": {
+      "$ref": "Admin/Skills.json#/skills_skillid_parameters_general-settings"
+    },
+    "/skills/{skillId}/parameters/cpa-management": {
+      "$ref": "Admin/Skills.json#/skills_skillid_parameters_cpa-management"
+    },
+    "/skills/{skillId}/parameters/xs-settings": {
+      "$ref": "Admin/Skills.json#/skills_skillid_parameters_xs-settings"
+    },
+    "/skills/{skillId}/parameters/delivery-preferences": {
+      "$ref": "Admin/Skills.json#/skills_skillid_parameters_delivery-preferences"
+    },
+    "/skills/{skillId}/parameters/retry-settings": {
+      "$ref": "Admin/Skills.json#/skills_skillid_parameters_retry-settings"
+    },
+    "/skills/{skillId}/parameters/schedule-settings": {
+      "$ref": "Admin/Skills.json#/skills_skillid_parameters_schedule-settings"
+    },
+    "/skills/{skillId}/parameters/cadence-settings": {
+      "$ref": "Admin/Skills.json#/skills_skillid_parameters_cadence-settings"
+    },
+    "/skills/{skillId}/parameters/time-zones": {
+      "$ref": "Admin/skills.json#/skills_skillid_parameters_time-zones"
+    },
+    "/skills/{skillId}/parameters/list-management": {
+      "$ref": "Admin/skills.json#/skills_skillid_parameters_list-management"
+    },
+    "/tags": {
+      "$ref": "Admin/General.json#/tags"
+    },
+    "/tags/{tagId}": {
+      "$ref": "Admin/General.json#/tags-tagId"
+    },
+    "/teams": {
+      "$ref": "Admin/Agents.json#/teams"
+    },
+    "/teams/{teamId}": {
+      "$ref": "Admin/Agents.json#/teams_teamId"
+    },
+    "/teams/agents": {
+      "$ref": "Admin/Agents.json#/teams-agents"
+    },
+    "/teams/{teamId}/address-books": {
+      "$ref": "Admin/AddressBook.json#/teams_teamid_addressbooks"
+    },
+    "/teams/{teamId}/agents": {
+      "$ref": "Admin/Agents.json#/teams-teamId-agents"
+    },
+    "/teams/{teamId}/unavailable-codes": {
+      "$ref": "Admin/Agents.json#/teams_teamId_unavailable_codes"
+    },
+    "/timezones": {
+      "$ref": "Admin/General.json#/timezones"
+    },
+    "/suppressed-contact": {
+      "$ref": "Admin/General.json#/suppressed-contact"
+    },
+    "/business-unit/time-zones": {
+      "$ref": "Admin/General.json#/business-unit_time-zones"
+    },
+    "/unavailable-codes": {
+      "$ref": "Admin/General.json#/unavailable_codes"
+    },
+    "/unavailable-codes/{unavailableCodeId}": {
+      "$ref": "Admin/Agents.json#/unavailable-codes_unavailablecodeId"
+    },
+    "/unavailable-codes/{unavailableCodeId}/teams": {
+      "$ref": "Admin/Agents.json#/unavailable-codes_unavailablecodeId_teams"
+    },
+    "/access-keys": {
+      "$ref": "Admin/Agents.json#/access-keys"
+    },
+    "/access-keys/{accessKeyId}": {
+      "$ref": "Admin/Agents.json#/access-keys_accesskeyId"
+    },
+    "/activesupervisors": {
+      "$ref": "Admin/Agents.json#/activesupervisors"
+    },
+    "/campaigns/{campaignId}/skills": {
+      "$ref": "Admin/Skills.json#/campaigns_campaignId_skills"
+    },
+    "/contacts/{contactId}/sms-historical-transcript": {
+      "$ref": "Admin/Contacts.json#/contacts_contactId_sms-historical-transcript"
+    },
+    "/contacts/sms-historical-contacts": {
+      "$ref": "Admin/Contacts.json#/contacts_sms-historical-contacts"
+    },
+    "/phone-numbers": {
+      "$ref": "Admin/General.json#/phone-numbers"
+    },
+    "/workflow-data/list/{activeFlag}": {
+      "$ref": "Admin/WorkflowData.json#/workflow-data_list_activeFlag"
+    },
+    "/workflow-data": {
+      "$ref": "Admin/WorkflowData.json#/workflow-data"
+    },
+    "/workflow-data/{workflowDataId}": {
+      "$ref": "Admin/WorkflowData.json#/workflow-data_workflowDataId"
+    },
+    "/workflow-data/{workflowDataId}/deactivate": {
+      "$ref": "Admin/WorkflowData.json#/workflow-data_workflowDataId_deactivate"
+    },
+    "/workflow-data/{workflowDataId}/activate": {
+      "$ref": "Admin/WorkflowData.json#/workflow-data_workflowDataId_activate"
+    },
+    "/suppressed-contact/{suppressedContactId}": {
+      "$ref": "Admin/General.json#/suppressed-contact_suppressedContactId"
+    }
+  }
+}

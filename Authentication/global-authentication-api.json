@@ -1,0 +1,52 @@
+﻿{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "CXone Authentication Service",
+    "description": "The following endpoints are part of the **global CXone authentication service**. This service\nis a cross-tenant global service which authenticates and authorizes all CXone users. The service\nis used by all applications including those written by partners, integrators, and customers. All\napplications that use CXone APIs use bearer tokens, and this service is the only way that those\ncan be obtained.\nThis service operates globally but has two distinct instances that are separate. The difference\nis to support U.S. Federal Government (FedRAMP) customers. All other users, globally, use the\nsame instance while FedRAMP customers use a separate, U.S.-only instance.\n",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "Discovery"
+    },
+    {
+      "name": "Authorize"
+    },
+    {
+      "name": "Token"
+    },
+    {
+      "name": "Userinfo"
+    },
+    {
+      "name": "JWKS"
+    },
+    {
+      "name": "Logout"
+    }
+  ],
+  "schemes": [ "https" ],
+  "paths": {
+    "/.well-known/openid-configuration": {
+      "$ref": "authentication/GlobalAuthentication#/openid-configuration"
+    },
+    "/.well-known/cxone-configuration": {
+      "$ref": "authentication/GlobalAuthentication#/cxone-configuration"
+    },
+    "/auth/jwks": {
+      "$ref": "authentication/GlobalAuthentication#/jwks"
+    },
+    "/auth/authorize": {
+      "$ref": "authentication/GlobalAuthentication#/authorize"
+    },
+    "/auth/token": {
+      "$ref": "authentication/GlobalAuthentication#/token"
+    },
+    "/auth/authorize/logout": {
+      "$ref": "authentication/GlobalAuthentication#/logout"
+    },
+    "/auth/userinfo": {
+      "$ref": "authentication/GlobalAuthentication#/userinfo"
+    }
+  }
+}

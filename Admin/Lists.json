@@ -1,0 +1,3225 @@
+﻿{
+  "lists_call_lists": {
+    "post": {
+      "tags": [ "List" ],
+      "summary": "Create a Calling List mapping",
+      "description": "This method will create a new Calling List container an define the mappings to be used when a file is uploaded into this container using the <a href='/AdminAPI#!/Lists/post_lists_call_lists_listId_upload'>POST /lists/call-lists/{listId}/upload</a>.  If the container already exists under the name provided in \"listName\", then the mappings will be changed on that container to match the values sent.  Unless the mappings change, you should only have to call this method once and then use the above upload API to upload new calling list files.<div class='tabs_wrapper' data-path='admin_lists_postCallingLists.html'></div>",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "name": "listName",
+          "description": "Name of Calling List container",
+          "type": "string",
+          "in": "query",
+          "required": true
+        },
+        {
+          "name": "externalIdColumn",
+          "description": "Column name containing External ID",
+          "type": "string",
+          "in": "query",
+          "required": true
+        },
+        {
+          "name": "listExpirationDate",
+          "description": "ISO 8601 time that the Calling List will expire",
+          "type": "string",
+          "in": "query"
+        },
+        {
+          "name": "scoreColumn",
+          "description": "Column name containing score",
+          "type": "string",
+          "in": "query"
+        },
+        {
+          "name": "customer1Column",
+          "description": "Column name containing custom value",
+          "type": "string",
+          "in": "query"
+        },
+        {
+          "name": "customer2Column",
+          "description": "Column name containing custom value",
+          "type": "string",
+          "in": "query"
+        },
+        {
+          "name": "callerIdColumn",
+          "description": "Column name containing caller ID",
+          "type": "string",
+          "in": "query"
+        },
+        {
+          "name": "priorityColumn",
+          "description": "Column name containing priority",
+          "type": "string",
+          "in": "query"
+        },
+        {
+          "name": "complianceReqColumn",
+          "description": "Column name containing compliance",
+          "type": "string",
+          "in": "query"
+        },
+        {
+          "name": "firstNameColumn",
+          "description": "Column name containing first name",
+          "type": "string",
+          "in": "query"
+        },
+        {
+          "name": "lastNameColumn",
+          "description": "Column name containing last name",
+          "type": "string",
+          "in": "query"
+        },
+        {
+          "name": "addressColumn",
+          "description": "Column name containing address",
+          "type": "string",
+          "in": "query"
+        },
+        {
+          "name": "cityColumn",
+          "description": "Column name containing city",
+          "type": "string",
+          "in": "query"
+        },
+        {
+          "name": "stateColumn",
+          "description": "Column name containing state",
+          "type": "string",
+          "in": "query"
+        },
+        {
+          "name": "zipColumn",
+          "description": "Column name containing zip code",
+          "type": "string",
+          "in": "query"
+        },
+        {
+          "name": "timeZoneColumn",
+          "description": "Column name containing time zone",
+          "type": "string",
+          "in": "query"
+        },
+        {
+          "name": "confirmReqColumn",
+          "description": "Column name containing confirmation required",
+          "type": "string",
+          "in": "query"
+        },
+        {
+          "name": "overrideFinalizationColumn",
+          "description": "Column name containing override finalization",
+          "type": "string",
+          "in": "query"
+        },
+        {
+          "name": "agentIdColumn",
+          "description": "Column name containing ID of agent",
+          "type": "string",
+          "in": "query"
+        },
+        {
+          "name": "callRequestTimeColumn",
+          "description": "Column name containing call request time",
+          "type": "string",
+          "in": "query"
+        },
+        {
+          "name": "callRequestStaleColumn",
+          "description": "Column name containing call request stale",
+          "type": "string",
+          "in": "query"
+        },
+        {
+          "name": "notesColumn",
+          "description": "Column name containing call notes",
+          "type": "string",
+          "in": "query"
+        },
+        {
+          "name": "expirationDateColumn",
+          "description": "Column name containing expiration date",
+          "type": "string",
+          "in": "query"
+        },
+        {
+          "in": "body",
+          "name": "Body Parameters",
+          "required": true,
+          "description": "Array of destination field mappings.  Must have at least one mapping",
+          "allowMultiple": true,
+          "schema": {
+            "title": "Arguments",
+            "type": "object",
+            "properties": {
+              "destinationMappings": {
+                "type": "array",
+                "required": true,
+                "items": {
+                  "title": "destinationMappings",
+                  "properties": {
+                    "fieldName": {
+                      "type": "string",
+                      "description": "Name of the mapping field",
+                      "required": true
+                    },
+                    "fieldValue": {
+                      "type": "string",
+                      "description": "Value of the mapping field",
+                      "required": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Calling List created and mapped",
+          "schema": {
+            "title": "PostCallingList",
+            "properties": {
+              "listId": {
+                "type": "integer",
+                "description": "ID of the Calling List",
+                "required": true
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "<p>Must have at least 1 destinationMapping</p><p>Unrecognized customFieldMappings {0}</p><p>Duplicate column mappings for {0}</p><p>Invalid listName - '{0}', cannot be null or empty</p><p>Invalid externalIdColumn - '{0}' cannot be null or empty</p><p>Unrecognized destinationMappings {0}</p>"
+        },
+        "401": {
+          "description": "Invalid or expired token"
+        },
+        "409": {
+          "description": "Calling List is not Active"
+        }
+      }
+    },
+    "get": {
+      "tags": [ "List" ],
+      "summary": " Returns all Calling Lists",
+      "operationId": "ReturnCallList",
+      "description": "This method will return a summary of data from all calling lists that have been previously uploaded.  This method will not return the contents of the calling lists, but only a summary of information about each of the calling lists.  To download the contents of a calling list you must request them individually using the <a href='/AdminAPI#!/Lists/Download_A_Call_List'>GET /lists/call-lists/{listId}</a> API.<div class='tabs_wrapper' data-path='admin_lists_getCallingLists.html'></div>",
+      "parameters": [
+        {
+          "$ref": "#/definitions/parameters/skip"
+        },
+        {
+          "$ref": "#/definitions/parameters/top"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "schema": {
+            "$ref": "#/definitions/getCallingListsResponse"
+          }
+        },
+        "204": {
+          "description": "No Content"
+        },
+        "400": {
+          "description": "<p>Bad Skip</p><p>Bad Top</p>"
+        },
+        "401": {
+          "description": "Invalid or expired token"
+        },
+        "403": {
+          "description": "Security permissions prevent access to data"
+        }
+      }
+    }
+  },
+  "lists_call_lists_listId": {
+    "get": {
+      "tags": [ "List" ],
+      "summary": "Download a Calling List",
+      "operationId": "Download A Call List",
+      "description": "This method will download a specific calling list that has been previously uploaded.  This download is not the equivalent of downloading a file from the inContact file system.  A calling list is uploaded into an internal table for processing and use in Personal Connection.  This method will return the contents of that table and may not be identical to the contents of the last file that was uploaded.<br/><br/>If the number of records in the calling list exceeds 10,000 the response will be paginated and you will only receive the first 10,000 records.  You will need to call this API again using the skip and top fields to retrieve the full list of records.<div class='tabs_wrapper' data-path='admin_lists_getCallingList.html'></div>",
+      "parameters": [
+        {
+          "$ref": "#/definitions/parameters/callingListId"
+        },
+        {
+          "name": "finalized",
+          "description": "Filters records by finalized state.  Default is \"False\"",
+          "type": "boolean",
+          "default": false,
+          "in": "query"
+        },
+        {
+          "name": "includeRecords",
+          "description": "Indicates if the response payload should include the individual call records in the calling list",
+          "type": "boolean",
+          "in": "query"
+        },
+        {
+          "$ref": "#/definitions/parameters/updatedSince"
+        },
+        {
+          "$ref": "#/definitions/parameters/fields"
+        },
+        {
+          "$ref": "#/definitions/parameters/skip"
+        },
+        {
+          "$ref": "#/definitions/parameters/top"
+        },
+        {
+          "$ref": "#/definitions/parameters/orderBy"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "schema": {
+            "$ref": "#/definitions/getCallingListResponseById"
+          }
+        },
+        "400": {
+          "description": "<p>Invalid updatedSince</p><p>Invalid fields list</p><p>Invalid skip</p><p>Invalid top</p><p>Invalid orderby</p><p>Invalid finalized</p><p>Invalid includeRecords</p>"
+        },
+        "401": {
+          "description": "Invalid or expired token"
+        },
+        "404": {
+          "description": "Invalid or missing listId"
+        }
+      }
+    },
+    "delete": {
+      "tags": [ "List" ],
+      "summary": " Remove a Calling List",
+      "description": "This method will remove a calling list that has been previously created.  This method will allow you to mark a calling list as inactive as well as mark the list ready for deletion from the file system.<div class='tabs_wrapper' data-path='admin_deleteCallinglists.html'></div>",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "$ref": "#/definitions/parameters/callingListId"
+        },
+        {
+          "name": "forceInactive",
+          "description": "Indicates if the calling list should be forced to be made inactive.  Default is false",
+          "type": "boolean",
+          "default": "false",
+          "in": "query"
+        },
+        {
+          "name": "forceDelete",
+          "description": "Indicates if the calling list should be marked for removal from the inContact file system.  Default is false",
+          "type": "boolean",
+          "default": "false",
+          "in": "query"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success"
+        },
+        "400": {
+          "description": "Invalid parameter - {0}"
+        },
+        "401": {
+          "description": "Invalid or expired token"
+        },
+        "403": {
+          "description": "Forbidden. Check Security Profile permissions"
+        },
+        "404": {
+          "description": "Invalid listId - {0}"
+        },
+        "409": {
+          "description": "Calling List cannot be modified - {0}"
+        }
+      }
+    }
+  },
+  "lists_call_lists_listId_attempts": {
+    "get": {
+      "tags": [ "List" ],
+      "summary": "Download a Calling List's attempts",
+      "operationId": "Download A Call List Attempts",
+      "description": "This method will download the records of the attempts, or contacts, made for a calling list that has been previously uploaded for use in Personal Connection.<br/><br/>If the number of contact attempts for this calling list exceeds 10,000 the response will be paginated and you will only receive the first 10,000 records.  You will need to call this API again using the skip and top fields to retrieve the full list of records.<div class='tabs_wrapper' data-path='admin_lists_getCallingListAttempts.html'></div>",
+      "parameters": [
+        {
+          "$ref": "#/definitions/parameters/callingListId"
+        },
+        {
+          "name": "finalized",
+          "description": "If set to \"True\" will return only finalized records, \"False\" will return only non-finalized.  If element is not sent then the filter is not applied",
+          "type": "boolean",
+          "in": "query"
+        },
+        {
+          "$ref": "#/definitions/parameters/updatedSince"
+        },
+        {
+          "$ref": "#/definitions/parameters/fields"
+        },
+        {
+          "$ref": "#/definitions/parameters/skip"
+        },
+        {
+          "$ref": "#/definitions/parameters/top"
+        },
+        {
+          "$ref": "#/definitions/parameters/orderBy"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "schema": {
+            "$ref": "#/definitions/getCallingListAttemptsResponse"
+          }
+        },
+        "400": {
+          "description": "<p>Invalid fields list</p><p>Invalid skip</p><p>Invalid top</p><p>Invalid orderby</p><p>Invalid updatedSince</p><p>Invalid finalized</p>"
+        },
+        "401": {
+          "description": "Invalid or expired token"
+        },
+        "404": {
+          "description": "Invalid or missing listId"
+        }
+      }
+    }
+  },
+  "lists_call-lists_listId_upload": {
+    "post": {
+      "tags": [
+        "List"
+      ],
+      "summary": "Upload new records to a call list",
+      "operationId": "UploadingCallingList",
+      "description": "This method uploads new records to a previously created calling list.<br/><br/><b><i><span style='color:red'>NOTE:</span></i></b> There is a 2 MB file size limit. If the file is larger than this limit, the request will fail.<div class='tabs_wrapper' data-path='admin_list_postlistupload.html'></div>",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "$ref": "#/definitions/parameters/callingListId"
+        },
+        {
+          "name": "Calling List",
+          "description": "Calling List",
+          "type": "DynamicData",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/parameters/postListUpload"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "schema": {
+            "$ref": "#/definitions/postCallingListResponse"
+          }
+        },
+        "202": {
+          "description": "Accepted. Upload job queued",
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "jobId": {
+                "type": "integer"
+              },
+              "sourceId": {
+                "type": "integer"
+              },
+              "importStatus": {
+                "type": "boolean"
+              },
+              "procRecords": {
+                "type": "integer"
+              },
+              "validRecords": {
+                "type": "integer"
+              },
+              "invalidRecords": {
+                "type": "integer"
+              },
+              "errorResults": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "recordNumber": {
+                      "type": "integer"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "errorValues": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "<p>Invalid file format for listFile</p><p>Invalid skillId</p><p>Calling List must be created and mapped before uploading</p><p>Invalid column mapping</p><p>File not found</p><p>File server error</p><p>List processing error</p><p>Invalid file size</p><p>Invalid fileName</p><p>Invalid listFile</p><p>Invalid forceOverwrite</p><p>Invalid expirationDate - '{0}'</p><p>Invalid defaultTimeZone - '{0}'</p>"
+        },
+        "404": {
+          "description": "Invalid or missing listId"
+        },
+        "409": {
+          "description": "<p>File already exists</p><p>Calling List is not Active</p>"
+        }
+      }
+    }
+  },
+  "lists_call-lists_sourcename_removeprospects": {
+    "delete": {
+      "tags": [ "List" ],
+      "summary": " Remove Prospects from a Source",
+      "operationId": "delete-lists-call-lists-id-removeProspects",
+      "description": "This method removes prospective contacts from a list by “sourceName”. <div class='tabs_wrapper' data-path='admin_list_removeprospects.html'></div>",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "name": "sourceName",
+          "description": "Source Name",
+          "type": "string",
+          "in": "path",
+          "required": true
+        },
+        {
+          "name": "prospectsToRemove",
+          "description": "Prospects to Remove",
+          "type": "DynamicData",
+          "in": "body",
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "prospectsToRemove": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "type": "object",
+                  "nullable": true,
+                  "properties": {
+                    "externalId": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "successfulRecords": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "externalId": {
+                      "type": "string"
+                    },
+                    "resultCode": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "failedRecords": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "externalId": {
+                      "type": "string"
+                    },
+                    "resultCode": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "ProspectsNotFoundOrRemoved"
+        },
+        "401": {
+          "description": "InvalidSecurityUser"
+        },
+        "404": {
+          "description": "Invalid Source Name"
+        },
+        "409": {
+          "description": "The source has been removed"
+        }
+      }
+    }
+  },
+  "lists_call-lists_jobs": {
+    "get": {
+      "tags": [ "List" ],
+      "summary": "Returns the status of calling list upload jobs",
+      "operationId": "GetListJob",
+      "description": "This method returns the status of all currently in process calling list upload jobs. <div class='tabs_wrapper' data-path='admin_list_getcall_listjobs.html'></div>",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "$ref": "#/definitions/parameters/fields"
+        },
+        {
+          "$ref": "#/definitions/parameters/top"
+        },
+        {
+          "$ref": "#/definitions/parameters/skip"
+        },
+        {
+          "$ref": "#/definitions/parameters/orderBy"
+        },
+        {
+          "$ref": "#/definitions/parameters/startDate"
+        },
+        {
+          "$ref": "#/definitions/parameters/endDate"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "schema": {
+            "$ref": "#/definitions/getCallingListjobResponse"
+          }
+        },
+        "400": {
+          "description": "<p>Invalid fields - '{0}' is not a valid field name</p><p>Invalid top - '{0}'</p><p>Invalid skip - '{0}'</p><p>Invalid orderBy - '{0}' is not a valid field name or does not support ordering</p><p>Invalid date range, max {0} days</p><p>startDate and endDate' is required</p>"
+        }
+      }
+    }
+  },
+  "lists_call-lists_jobs_jobid": {
+    "get": {
+      "tags": [ "List" ],
+      "summary": "Returns the status of calling list upload job",
+      "operationId": "GetCallingList",
+      "description": "This method returns the status of all currently in process calling list upload for a job.<div class='tabs_wrapper' data-path='admin_list_getcall_listjobsbyid.html'></div>",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "name": "jobId",
+          "description": "Job Id",
+          "type": "integer",
+          "required": true,
+          "in": "path"
+        },
+        {
+          "$ref": "#/definitions/parameters/fields"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "schema": {
+            "$ref": "#/definitions/GetCallingListByJobIDResponse"
+          }
+        },
+        "400": {
+          "description": "InvalidFields"
+        },
+        "404": {
+          "description": "InvalidJobId"
+        }
+      }
+    },
+    "delete": {
+      "tags": [ "List" ],
+      "summary": " Cancel Pending/Processing List Process",
+      "operationId": "CancelList",
+      "description": "Cancels a Pending/Processing calling list upload. <div class='tabs_wrapper' data-path='admin_list_deletecall_listjobsbyid.html'></div>",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "name": "jobId",
+          "description": "Job Id",
+          "type": "integer",
+          "required": true,
+          "in": "path"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success"
+        },
+        "403": {
+          "description": "Forbidden. Check Security Profile permissions"
+        },
+        "404": {
+          "description": "Invalid jobId - '{1}'"
+        }
+      }
+    }
+  },
+  "dnc_groups": {
+    "get": {
+      "tags": [ "List" ],
+      "summary": "Returns list of DNC Groups",
+      "operationId": "DncGroupsResultSet",
+      "description": "This method will return a list of all Do Not Call (DNC) groups.  These groups replace the previous functionality of the DNC lists used in version 14.2 and earlier.  This new functionality allows for better management of phone numbers across multiple groups and outbound skills.<div class='tabs_wrapper' data-path='admin_lists_getDncGroups.html'></div>",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "$ref": "#/definitions/parameters/fields"
+        },
+        {
+          "$ref": "#/definitions/parameters/updatedSince"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "schema": {
+            "$ref": "#/definitions/getDNCGroupsResponse"
+          }
+        },
+        "204": {
+          "description": "No DNC Groups defined"
+        },
+        "400": {
+          "description": "<p>Invalid fields list</p><p>Invalid updatedSince</p>"
+        },
+        "401": {
+          "description": "Invalid or expired token"
+        },
+        "403": {
+          "description": "Forbidden. Check Security Profile permissions"
+        }
+      }
+    },
+    "post": {
+      "tags": [ "List" ],
+      "summary": " Create a DNC Group",
+      "description": "This method will create a new Do Not Call (DNC) Group to the Business Unit.  These groups replace the previous functionality of the DNC lists used in version 14.2 and earlier. This new functionality allows for better management of phone numbers across multiple groups and outbound skills.<div class='tabs_wrapper' data-path='admin_lists_postDncGroups.html'></div>",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "name": "dncGroupName",
+          "description": "DNC Group Name",
+          "type": "string",
+          "required": true,
+          "in": "query"
+        },
+        {
+          "name": "dncGroupDescription",
+          "description": "DNC Group Description",
+          "type": "string",
+          "in": "query"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "schema": {
+            "$ref": "#/definitions/postDNCGroupsResponse"
+          }
+        },
+        "400": {
+          "description": "<p>{1}</p><p>dncGroupName already exists</p>"
+        },
+        "401": {
+          "description": "Invalid or expired token"
+        },
+        "403": {
+          "description": "Forbidden. Check Security Profile permissions"
+        }
+      }
+    }
+  },
+  "dnc_groups_groupId": {
+    "get": {
+      "tags": [ "List" ],
+      "summary": "Returns a DNC Group",
+      "operationId": "GetDNCgroupByID",
+      "description": "This method will return a Do Not Call (DNC) group.  These groups replace the previous functionality of the DNC lists used in version 14.2 and earlier.  This new functionality allows for better management of phone numbers across multiple groups and outbound skills.<div class='tabs_wrapper' data-path='admin_lists_getDncGroupsById.html'></div>",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "$ref": "#/definitions/parameters/groupId"
+        },
+        {
+          "$ref": "#/definitions/parameters/fields"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "schema": {
+            "$ref": "#/definitions/getDNCGroupResponseById"
+          }
+        },
+        "204": {
+          "description": "No DNC Groups defined"
+        },
+        "400": {
+          "description": "Invalid fields list"
+        },
+        "401": {
+          "description": "Invalid or expired token"
+        },
+        "403": {
+          "description": "Forbidden. Check Security Profile permissions"
+        },
+        "404": {
+          "description": "Invalid or missing groupId"
+        }
+      }
+    },
+    "put": {
+      "tags": [ "List" ],
+      "summary": "Update a DNC Group",
+      "operationId": "PutDNCgroupByID",
+      "description": "This method will update a Do Not Call (DNC) Group.  These groups replace the previous functionality of the DNC lists used in version 14.2 and earlier. This new functionality allows for better management of phone numbers across multiple groups and outbound skills.<div class='tabs_wrapper' data-path='admin_lists_putDncGroups.html'></div>",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "$ref": "#/definitions/parameters/groupId"
+        },
+        {
+          "name": "dncGroupName",
+          "description": "DNC Group Name",
+          "type": "string",
+          "in": "query"
+        },
+        {
+          "name": "dncGroupDescription",
+          "description": "DNC Group Description",
+          "type": "string",
+          "in": "query"
+        },
+        {
+          "name": "isActive",
+          "description": "Sets the DNC Group to active or inactive",
+          "type": "boolean",
+          "in": "query"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "schema": {
+            "$ref": "#/definitions/postDNCGroupsResponse"
+          }
+        },
+        "204": {
+          "description": "{0}",
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "dncGroups": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "dncGroupId": {
+                      "type": "integer"
+                    },
+                    "dncGroupName": {
+                      "type": "string"
+                    },
+                    "dncGroupDescription": {
+                      "type": "string"
+                    },
+                    "validRecords": {
+                      "type": "integer"
+                    },
+                    "isActive": {
+                      "type": "boolean"
+                    },
+                    "isRemoved": {
+                      "type": "boolean"
+                    },
+                    "createDate": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "lastUpdateTime": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "{1}"
+        },
+        "401": {
+          "description": "Invalid or expired token"
+        },
+        "403": {
+          "description": "Forbidden. Check Security Profile permissions"
+        },
+        "404": {
+          "description": "{1}"
+        }
+      }
+    }
+  },
+  "dnc_groups_groupId_contributing_skills": {
+    "get": {
+      "tags": [ "List" ],
+      "summary": " Returns Contributing Skills for a DNC Group",
+      "operationId": "GetDncGroupsContribSkills",
+      "description": "This method will return a list of all Skills that are configured to be able to contribute phone numbers to a Do Not Call (DNC) group identified by groupId.  We refer to these as Contributing Skills.  These groups replace the previous functionality of the DNC lists used in version 14.2 and earlier.  This new functionality allows for better management of phone numbers across multiple groups and outbound skills.  See the 15.1 Release Notes for more information on DNC groups.<div class='tabs_wrapper' data-path='admin_lists_getDncGroupsContribSkills.html'></div>",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "$ref": "#/definitions/parameters/groupId"
+        },
+        {
+          "$ref": "#/definitions/parameters/skip"
+        },
+        {
+          "$ref": "#/definitions/parameters/top"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "schema": {
+            "$ref": "#/definitions/getDNCGroupContributingSkillsResponse"
+          }
+        },
+        "204": {
+          "description": "No Contributing-Skills defined"
+        },
+        "400": {
+          "description": "<p>Invalid skip</p><p>Invalid top</p>"
+        },
+        "401": {
+          "description": "Invalid or expired token"
+        },
+        "403": {
+          "description": "<p>Forbidden. Check Security Profile permissions</p><p>Security permissions prevent access to data</p>"
+        },
+        "404": {
+          "description": "<p>Invalid or missing groupId</p>"
+        }
+      }
+    }
+  },
+  "dnc_groups_groupId_contributing_skill": {
+    "delete": {
+      "tags": [ "List" ],
+      "summary": " Removes a Contributing Skill",
+      "operationId": "DeleteDncGroupsContribSkillsById",
+      "description": "This method will remove a Skill specified by skillId as a contributing skill for a Do Not Call (DNC) Group.  This means the Skill will no longer be allowed to add records to the DNC Group.<div class='tabs_wrapper' data-path='admin_lists_deleteDNCContributingSkills.html'></div>",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "$ref": "#/definitions/parameters/groupId"
+        },
+        {
+          "$ref": "#/definitions/parameters/skillId"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success"
+        },
+        "401": {
+          "description": "Invalid or expired token"
+        },
+        "403": {
+          "description": "Forbidden. Check Security Profile permissions"
+        },
+        "404": {
+          "description": "<p>Invalid or missing groupId</p><p>Invalid or missing skillId</p>"
+        }
+      }
+    },
+    "post": {
+      "tags": [ "List" ],
+      "summary": "Assign a Contributing Skill",
+      "operationId": "PostDncGroupsContribSkillsById",
+      "description": "This method will assign a Skill specified by skillId as a contributing skill for a Do Not Call (DNC) Group.  This means the Skill will be allowed to add records to the DNC Group.<div class='tabs_wrapper' data-path='admin_lists_postDNCContributingSkill.html'></div>",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "$ref": "#/definitions/parameters/groupId"
+        },
+        {
+          "$ref": "#/definitions/parameters/skillId"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success"
+        },
+        "401": {
+          "description": "Invalid or expired token"
+        },
+        "403": {
+          "description": "Forbidden. Check Security Profile permissions"
+        }
+      }
+    }
+  },
+  "dnc_groups_groupId_scrubbed_skills": {
+    "get": {
+      "tags": [ "List" ],
+      "summary": " Returns Scrubbed Skills for a DNC Group",
+      "operationId": "GetDncGroupsScrubbedSkills",
+      "description": "This method will return a list of all Skills that are configured to have the Do Not Call (DNC) group identified by groupId enforced.  We refer to these as Scrubbed Skills.  These groups replace the previous functionality of the DNC lists used in version 14.2 and earlier.  This new functionality allows for better management of phone numbers across multiple groups and outbound skills.  See the 15.1 Release Notes for more information on DNC groups.<div class='tabs_wrapper' data-path='admin_lists_getDncGroupsScrubbedSkills.html'></div>",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "$ref": "#/definitions/parameters/groupId"
+        },
+        {
+          "$ref": "#/definitions/parameters/skip"
+        },
+        {
+          "$ref": "#/definitions/parameters/top"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "schema": {
+            "$ref": "#/definitions/getDNCGroupScrubbedSkillsResponse"
+          }
+        },
+        "204": {
+          "description": "No Scrubbed-Skills defined"
+        },
+        "400": {
+          "description": "<p>Invalid skip</p><p>Invalid top</p>"
+        },
+        "401": {
+          "description": "Invalid or expired token"
+        },
+        "403": {
+          "description": "<p>Forbidden. Check Security Profile permissions</p><p>Restricted Data</p>"
+        },
+        "404": {
+          "description": "Invalid or missing groupId"
+        }
+      }
+    }
+  },
+  "dnc_groups_groupId_scrubbed_skill": {
+    "post": {
+      "tags": [ "List" ],
+      "summary": "Assign a Scrubbed Skill",
+      "operationId": "PostDncGroupsScrubbedSkills",
+      "description": "This method will assign a Skill specified by skillId as a scrubbed skill for a Do Not Call (DNC) Group.  This means the Skill will not be allowed to dial records from the DNC Group.<div class='tabs_wrapper' data-path='admin_lists_postDNCScrubbedSkills.html'></div>",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "$ref": "#/definitions/parameters/groupId"
+        },
+        {
+          "$ref": "#/definitions/parameters/skillId"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success"
+        },
+        "401": {
+          "description": "Invalid or expired token"
+        },
+        "403": {
+          "description": "Forbidden. Check Security Profile permissions"
+        }
+      }
+    },
+    "delete": {
+      "tags": [ "List" ],
+      "summary": " Remove a Scrubbed Skill",
+      "operationId": "DeleteDncGroupsScrubbedSkills",
+      "description": "This method will remove a Skill specified by skillId as a scrubbed skill for a Do Not Call (DNC) Group.  This means the Skill will no longer be restricted by this DNC Group.<div class='tabs_wrapper' data-path='admin_lists_deleteDNCScrubbedSkills.html'></div>",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "$ref": "#/definitions/parameters/groupId"
+        },
+        {
+          "$ref": "#/definitions/parameters/skillId"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success"
+        },
+        "401": {
+          "description": "Invalid or expired token"
+        },
+        "403": {
+          "description": "Forbidden. Check Security Profile permissions"
+        },
+        "404": {
+          "description": "<p>Invalid or missing groupId</p><p>Invalid or missing skillId</p>"
+        }
+      }
+    }
+  },
+  "dnc_groups_groupId_records": {
+    "get": {
+      "tags": [ "List" ],
+      "summary": "Returns Records in a DNC Group",
+      "operationId": "DncGroupsRecords",
+      "description": "This method will return all Records that are associated with the DNC Group identified by groupId. These groups replace the previous functionality of the DNC lists used in version 14.2 and earlier.  This new functionality allows for better management of phone numbers across multiple groups and outbound skills.  See the 15.1 Release Notes for more information on DNC groups.<div class='tabs_wrapper' data-path='admin_lists_getDncGroupsRecords.html'></div>",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "$ref": "#/definitions/parameters/groupId"
+        },
+        {
+          "$ref": "#/definitions/parameters/fields"
+        },
+        {
+          "$ref": "#/definitions/parameters/skip"
+        },
+        {
+          "$ref": "#/definitions/parameters/top"
+        },
+        {
+          "$ref": "#/definitions/parameters/orderBy"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "schema": {
+            "$ref": "#/definitions/getDNCGroupRecordsResponseById"
+          }
+        },
+        "204": {
+          "description": "No DNC records defined for groupId"
+        },
+        "400": {
+          "description": "<p>Invalid skip</p><p>Invalid top</p><p>Invalid fields list</p><p>Invalid orderby</p>"
+        },
+        "401": {
+          "description": "Invalid or expired token"
+        },
+        "403": {
+          "description": "Security privileges prevent access to data"
+        },
+        "404": {
+          "description": "Invalid or missing groupId"
+        }
+      }
+    },
+    "post": {
+      "tags": [ "List" ],
+      "summary": "Add Records to a DNC Group",
+      "operationId": "CreateDncGroupRecords",
+      "description": "This method will add Records to a DNC Group identified by groupId. These groups replace the previous functionality of the DNC lists used in version 14.2 and earlier.  This new functionality allows for better management of phone numbers across multiple groups and outbound skills.  See the 15.1 Release Notes for more information on DNC groups.<div class='tabs_wrapper' data-path='admin_lists_postDncGroupsRecords.html'></div>",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "$ref": "#/definitions/parameters/groupId"
+        },
+        {
+          "$ref": "#/definitions/parameters/contentBodyMetaDataNew",
+          "schema": {
+            "$ref": "#/definitions/postDNCGroupRecordsRequest"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "schema": {
+            "$ref": "#/definitions/postDNCGroupRecordsResponse"
+          }
+        },
+        "400": {
+          "description": "<p>Maximum of 4,500 records per upload exceeded</p><p>Missing record parameters</p>"
+        },
+        "401": {
+          "description": "Invalid or expired token"
+        },
+        "403": {
+          "description": "Forbidden. Check Security Profile permissions"
+        },
+        "404": {
+          "description": "Invalid or missing groupId"
+        },
+        "409": {
+          "description": "DncGroup is inactive, can't add records"
+        }
+      }
+    },
+    "delete": {
+      "tags": [ "List" ],
+      "summary": " Expire Records from a DNC Group",
+      "operationId": "DeleteDncGroupRecords",
+      "description": "This method will expire Records in a DNC Group identified by groupId. These groups replace the previous functionality of the DNC lists used in version 14.2 and earlier.  Marking a Record as expired will prevent it from being suppressed in this DNC Group.  It will be removed from the DNC Group permanently after 7 days of being expired.<div class='tabs_wrapper' data-path='admin_lists_deleteDncGroupsRecords.html'></div>",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "$ref": "#/definitions/parameters/groupId"
+        },
+        {
+          "$ref": "#/definitions/parameters/contentBodyMetaDataNew",
+          "schema": {
+            "$ref": "#/definitions/deleteDNCGroupRecordsRequest"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "schema": {
+            "$ref": "#/definitions/deleteDNCGroupRecordsResponse"
+          }
+        },
+        "400": {
+          "description": "<p>Maximum of 4,500 records per upload exceeded</p><p>Missing record parameters</p>"
+        },
+        "401": {
+          "description": "Invalid or expired token"
+        },
+        "403": {
+          "description": "Forbidden. Check Security Profile permissions"
+        },
+        "404": {
+          "description": "Invalid or missing groupId"
+        },
+        "409": {
+          "description": "DncGroup is inactive, can't delete records"
+        }
+      }
+    }
+  },
+  "dnc_groups_search": {
+    "post": {
+      "tags": [ "List" ],
+      "summary": "Search for a Phone Number",
+      "operationId": "Return a list of Groups by PhoneNumber",
+      "description": "This method will search for the phone number provided in phoneNumber parameter in all DNC Groups. The string being passed in is transformed into the inContact format for phone numbers before the list of records are searched.  For example, if you pass \"+1 (801) 244-0005\" into this method, it will be converted to the string \"8012440005\" and then return a list of all of the DNC groups that contain this phone number.<div class='tabs_wrapper' data-path='admin_lists_searchDncGroupsRecords.html'></div>",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "name": "phoneNumber",
+          "description": "Phone Number to search for in DNC Groups",
+          "type": "string",
+          "in": "query",
+          "required": true
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "schema": {
+            "$ref": "#/definitions/getSearchDNCGroupsResponse"
+          }
+        },
+        "204": {
+          "description": "No DNC Groups meet search criteria"
+        },
+        "400": {
+          "description": "Invalid phoneNumber"
+        },
+        "401": {
+          "description": "Invalid or expired token"
+        },
+        "403": {
+          "description": "Forbidden. Check Security Profile permissions"
+        }
+      }
+    }
+  },
+  "dnis": {
+    "get": {
+      "tags": [ "List" ],
+      "summary": "Get DNIS entries",
+      "operationId": "get-dnis",
+      "description": "This method will get DNIS entries<div class='tabs_wrapper' data-path='admin_agents_getDnis.html'></div>",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "$ref": "#/definitions/parameters/isActiveNew"
+        },
+        {
+          "$ref": "#/definitions/parameters/skip"
+        },
+        {
+          "$ref": "#/definitions/parameters/top"
+        },
+        {
+          "$ref": "#/definitions/parameters/searchString"
+        },
+        {
+          "$ref": "#/definitions/parameters/orderBy"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "totalRecords": {
+                "type": "integer",
+                "description": "Returns total number of records"
+              },
+              "_links": {
+                "type": "object",
+                "title": "_links",
+                "description": "Links used to parse paginated response",
+                "properties": {
+                  "self": {
+                    "type": "string",
+                    "format": "URL",
+                    "description": " Link to same page of results"
+                  },
+                  "next": {
+                    "type": "string",
+                    "format": "URL",
+                    "description": " Link to next page of results"
+                  },
+                  "previous": {
+                    "type": "string",
+                    "format": "URL",
+                    "description": " Link to previous page of results"
+                  }
+                }
+              },
+              "dnisEntries": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "dnis": {
+                      "type": "string"
+                    },
+                    "isActive": {
+                      "type": "boolean",
+                      "description": "Whether or not Active"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid Parameter"
+        },
+        "403": {
+          "description": "Restricted Data"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "parameters": {
+      "postListUpload": {
+        "title": " ",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "listFile": {
+            "name": "listFile",
+            "description": "Base-64 Encoded File",
+            "example": "Base-64 Encoded File",
+            "required": true,
+            "type": "string"
+          },
+          "fileName": {
+            "name": "fileName",
+            "type": "string",
+            "description": "Name of the file to upload"
+          },
+          "skillId": {
+            "name": "skillId",
+            "description": "ID of Skill the records in the file will be assigned to",
+            "type": "integer",
+            "format": "int32"
+          },
+          "defaultTimeZone": {
+            "name": "defaultTimeZone",
+            "description": "Standard Name of the Time Zone",
+            "type": "string"
+          },
+          "forceOverwrite": {
+            "name": "forceOverwrite",
+            "description": "Forces the file to be overwritten on the platform",
+            "type": "boolean",
+            "required": true
+          },
+          "expirationDate": {
+            "name": "expirationDate",
+            "description": "Expiration Date",
+            "type": "string",
+            "required": true
+          },
+          "startSkill": {
+            "name": "startSkill",
+            "description": "Start skill after upload",
+            "type": "boolean",
+            "required": true
+          }
+        }
+      },
+      "callingListId": {
+        "name": "listId",
+        "description": "Calling List Id",
+        "required": true,
+        "type": "integer",
+        "format": "int32",
+        "in": "path"
+      },
+      "callListsMetaData": {
+        "name": "Body Parameters",
+        "description": "Array of custom data field mappings",
+        "allowMultiple": true
+      },
+      "contentBodyMetaData": {
+        "in": "body",
+        "name": "",
+        "description": "Content Body",
+        "required": true,
+        "allowMultiple": true
+      },
+      "contentBodyMetaDataNew": {
+        "in": "body",
+        "name": "DNCGroupRecord",
+        "description": "Content Body",
+        "required": true,
+        "allowMultiple": true
+      },
+      "endDate": {
+        "name": "endDate",
+        "description": "ISO 8601 date/time",
+        "required": true,
+        "type": "string",
+        "format": "date-time",
+        "in": "query"
+      },
+      "fields": {
+        "name": "fields",
+        "description": "Comma separated list of elements to return in response",
+        "type": "string",
+        "in": "query"
+      },
+      "fieldsNew": {
+        "name": "fields",
+        "description": "Comma separated list of elements to return in response",
+        "type": "string",
+        "in": "query"
+      },
+      "groupId": {
+        "name": "groupId",
+        "description": "DNC Group Id",
+        "required": true,
+        "type": "string",
+        "in": "path"
+      },
+      "isActiveNew": {
+        "name": "isActive",
+        "description": "Filters results based on active status",
+        "type": "boolean",
+        "in": "query"
+      },
+      "orderBy": {
+        "name": "orderBy",
+        "description": "Values used to order results before paginating them.  Can also specify \"asc\" or \"desc\" to specify direction for example \"field1 asc,field2 desc,...\".  Default is asc",
+        "type": "string",
+        "in": "query"
+      },
+      "orderByNew": {
+        "name": "orderBy",
+        "description": "Values used to order results before paginating them.  Can also specify \"asc\" or \"desc\" to specify direction for example \"field1 asc,field2 desc,...\".  Default is asc",
+        "type": "string",
+        "in": "query"
+      },
+      "searchString": {
+        "name": "searchString",
+        "description": "Used to filter results to objects with the value in key fields",
+        "type": "string",
+        "in": "query"
+      },
+      "searchStringNew": {
+        "name": "searchString",
+        "description": "Used to filter results to objects with the value in key fields",
+        "type": "string",
+        "in": "query"
+      },
+      "skillId": {
+        "name": "skillId",
+        "description": "Skill Id",
+        "required": true,
+        "type": "string",
+        "in": "path"
+      },
+      "skip": {
+        "name": "skip",
+        "description": "Number of records to skip in the results",
+        "type": "integer",
+        "in": "query"
+      },
+      "skipNew": {
+        "name": "skip",
+        "description": "Number of records to skip in the results",
+        "type": "integer",
+        "in": "query"
+      },
+      "startDate": {
+        "name": "startDate",
+        "description": "ISO 8601 date/time",
+        "required": true,
+        "type": "string",
+        "format": "date-time",
+        "in": "query"
+      },
+      "top": {
+        "name": "top",
+        "description": "Number of records to return in the results",
+        "type": "integer",
+        "in": "query"
+      },
+      "topNew": {
+        "name": "top",
+        "description": "Number of records to return in the results",
+        "type": "integer",
+        "in": "query"
+      },
+      "updatedSince": {
+        "name": "updatedSince",
+        "description": "Returns all records updated since ISO 8601 time",
+        "type": "string",
+        "format": "date-time",
+        "in": "query"
+      },
+      "updatedSinceNew": {
+        "name": "updatedSinceNew",
+        "description": " Returns all records updated since ISO 8601 time",
+        "type": "string",
+        "format": "date-time",
+        "in": "query"
+      }
+    },
+    "postCallingListsRequest": {
+      "title": " ",
+      "type": "object",
+      "required": [ "destinationMappings" ],
+      "properties": {
+        "destinationMappings": {
+          "type": "array",
+          "description": "Collection of Destination Mappings",
+          "items": {
+            "title": "DestinationMapping",
+            "description": "Destination Mapping",
+            "required": [ "fieldName", "fieldValue" ],
+            "properties": {
+              "fieldName": {
+                "type": "string",
+                "description": "Destination Mapping Field Name"
+              },
+              "fieldValue": {
+                "type": "string",
+                "description": "Destination Mapping Field Value (corresponds to a Column Name)"
+              }
+            }
+          }
+        },
+        "customFieldMappings": {
+          "type": "array",
+          "description": "Collection of Custom Field Mappings",
+          "items": {
+            "title": "CustomFieldMapping",
+            "description": "Custom Field Mapping",
+            "required": [ "fieldName", "fieldValue" ],
+            "properties": {
+              "fieldName": {
+                "type": "string",
+                "description": "Custom Mapping Field Name"
+              },
+              "fieldValue": {
+                "type": "string",
+                "description": "Custom Mapping Field Value (corresponds to a Column Name)"
+              }
+            }
+          }
+        }
+      }
+    },
+    "postCallingListsResponse": {
+      "title": " ",
+      "type": "object",
+      "required": [ "listId" ],
+      "properties": {
+        "listId": {
+          "type": "integer",
+          "description": "Calling List Id"
+        }
+      }
+    },
+    "getCallingListsResponse": {
+      "title": " ",
+      "type": "object",
+      "required": [ "callingLists" ],
+      "properties": {
+        "totalRecords": {
+          "type": "integer",
+          "description": "Returns total number of records"
+        },
+        "_links": {
+          "type": "object",
+          "title": "_links",
+          "description": "Links used to parse paginated response",
+          "properties": {
+            "self": {
+              "type": "string",
+              "format": "URL",
+              "description": " Link to same page of results"
+            },
+            "next": {
+              "type": "string",
+              "format": "URL",
+              "description": " Link to next page of results"
+            },
+            "previous": {
+              "type": "string",
+              "format": "URL",
+              "description": " Link to previous page of results"
+            }
+          }
+        },
+        "callingLists": {
+          "type": "array",
+          "description": "Collection of Calling Lists",
+          "items": {
+            "title": "CallingList",
+            "description": "Calling List",
+            "required": [ "listId", "listName", "prospectiveContactCount", "status", "totalRecords", "invalidRecords", "validRecords", "finalizedRecords", "createDate", "uploadDate", "updateDate", "removeDate" ],
+            "properties": {
+              "listId": {
+                "type": "integer",
+                "description": "Calling List Id"
+              },
+              "listName": {
+                "type": "string",
+                "description": "Calling List Name"
+              },
+              "prospectiveContactCount": {
+                "type": "integer",
+                "description": "Number of unique contact prospects in uploaded list"
+              },
+              "status": {
+                "type": "string",
+                "description": "Status Type",
+                "enum": [ "Active", "Inactive" ]
+              },
+              "totalRecords": {
+                "type": "integer",
+                "description": "Total records processed from the file"
+              },
+              "invalidRecords": {
+                "type": "integer",
+                "description": "Total records not loaded into the Calling List due to errors in the record"
+              },
+              "validRecords": {
+                "type": "integer",
+                "description": "Total records successfully loaded into the Calling List"
+              },
+              "finalizedRecords": {
+                "type": "integer",
+                "description": "Total records finalized"
+              },
+              "createDate": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Create Date (ISO 8601 date)"
+              },
+              "uploadDate": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Upload Date (ISO 8601 date)"
+              },
+              "updateDate": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Update Date (ISO 8601 date)"
+              },
+              "removeDate": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Remove Date (ISO 8601 date)"
+              },
+              "skills": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "skillId": {
+                      "type": "string"
+                    },
+                    "skillName": {
+                      "type": "string"
+                    },
+                    "totalRecords": {
+                      "type": "string"
+                    },
+                    "freshRecords": {
+                      "type": "string"
+                    },
+                    "finalizedRecords": {
+                      "type": "string"
+                    },
+                    "retriedRecords": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getCallingListResponse": {
+      "title": " ",
+      "type": "object",
+      "required": [ "resultSet" ],
+      "properties": {
+        "resultSet": {
+          "schema": {
+            "title": "ResultSet",
+            "description": "Result Set",
+            "required": [
+              "listName",
+              "lastPollTime",
+              "prospectiveContactCount",
+              "status",
+              "totalRecords",
+              "invalidRecords",
+              "validRecords",
+              "finalizedRecords",
+              "createDate",
+              "uploadDate",
+              "updateDate",
+              "removeDate",
+              "listExpirationDate"
+            ],
+            "properties": {
+              "_links": {
+                "schema": {
+                  "title": "_links",
+                  "description": "Links used to parse paginated response",
+                  "properties": {
+                    "self": {
+                      "type": "string",
+                      "format": "URL",
+                      "description": " Link to same page of results"
+                    },
+                    "next": {
+                      "type": "string",
+                      "format": "URL",
+                      "description": " Link to next page of results"
+                    },
+                    "previous": {
+                      "type": "string",
+                      "format": "URL",
+                      "description": " Link to previous page of results"
+                    }
+                  }
+                }
+              },
+              "listName": {
+                "type": "string",
+                "description": "Calling List Name"
+              },
+              "lastPollTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "ISO 8601 timestamp of last database poll.  Value should be passed in \"updatedSince\" parameter on next call"
+              },
+              "prospectiveContactCount": {
+                "type": "integer",
+                "description": "Number of unique contact prospects in uploaded list"
+              },
+              "status": {
+                "type": "string",
+                "description": "\"Active\" or \"Inactive\""
+              },
+              "totalRecords": {
+                "type": "integer",
+                "description": "Number of contact records in last file uploaded in this list.  It is NOT the total number of records in the list"
+              },
+              "invalidRecords": {
+                "type": "integer",
+                "description": "Number of invalid records in last file uploaded in this list.  It is NOT the total number of invalid records in the list"
+              },
+              "validRecords": {
+                "type": "integer",
+                "description": "Number of valid records in last file uploaded in this list.  It is NOT the total number of valid records in the list"
+              },
+              "finalizedRecords": {
+                "type": "integer",
+                "description": "Number of finalized records in this list.  This number covers all files uploaded to the list"
+              },
+              "createDate": {
+                "type": "string",
+                "format": "date-time",
+                "description": "ISO 8601 date the list was created"
+              },
+              "uploadDate": {
+                "type": "string",
+                "format": "date-time",
+                "description": "ISO 8601 date the list was uploaded"
+              },
+              "updateDate": {
+                "type": "string",
+                "format": "date-time",
+                "description": "ISO 8601 date the list was updated"
+              },
+              "removeDate": {
+                "type": "string",
+                "format": "date-time",
+                "description": "ISO 8601 date the list was removed"
+              },
+              "listExpirationDate": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Expiration Date (ISO 8601 date)"
+              },
+              "skills": {
+                "type": "array",
+                "description": "Collection of Skills associated with Calling List",
+                "items": {
+                  "title": "Skill",
+                  "description": "Skill",
+                  "required": [ "skillId", "skillName", "totalRecords", "freshRecords", "finalizedRecords", "retriedRecords" ],
+                  "properties": {
+                    "skillId": {
+                      "type": "integer",
+                      "description": "Skill Id Calling List is mapped to"
+                    },
+                    "skillName": {
+                      "type": "string",
+                      "description": "Skill Name Calling List is mapped to"
+                    },
+                    "totalRecords": {
+                      "type": "integer",
+                      "description": "Total number of records mapped to this skill"
+                    },
+                    "freshRecords": {
+                      "type": "integer",
+                      "description": "Number of untried records for this skill"
+                    },
+                    "finalizedRecords": {
+                      "type": "integer",
+                      "description": "Number of finalized records for this skill"
+                    },
+                    "retriedRecords": {
+                      "type": "integer",
+                      "description": "Number of records retried for this skill"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getCallingListjobResponse": {
+      "title": " ",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "_links": {
+          "type": "object",
+          "title": "_links",
+          "description": "Links used to parse paginated response",
+          "properties": {
+            "self": {
+              "type": "string",
+              "format": "URL",
+              "description": " Link to same page of results"
+            },
+            "next": {
+              "type": "string",
+              "format": "URL",
+              "description": " Link to next page of results"
+            },
+            "previous": {
+              "type": "string",
+              "format": "URL",
+              "description": " Link to previous page of results"
+            }
+          }
+        },
+        "businessUnitId": {
+          "type": "integer"
+        },
+        "lastPollTime": {
+          "type": "string"
+        },
+        "totalRecords": {
+          "type": "integer",
+          "description": "Returns total number of records"
+        },
+        "uploadJobs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "jobId": {
+                "type": "integer"
+              },
+              "listId": {
+                "type": "integer"
+              },
+              "listName": {
+                "type": "string"
+              },
+              "startDate": {
+                "type": "string"
+              },
+              "submitDate": {
+                "type": "string"
+              },
+              "isComplete": {
+                "type": "boolean"
+              },
+              "isCancelled": {
+                "type": "boolean"
+              },
+              "completedDate": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "getCallingListResponseById": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "resultSet": {
+          "type": "object",
+          "properties": {
+            "listName": {
+              "type": "string"
+            },
+            "lastPollTime": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "prospectiveContactCount": {
+              "type": "integer"
+            },
+            "status": {
+              "type": "string"
+            },
+            "totalRecords": {
+              "type": "integer"
+            },
+            "invalidRecords": {
+              "type": "integer"
+            },
+            "validRecords": {
+              "type": "integer"
+            },
+            "finalizedRecords": {
+              "type": "integer"
+            },
+            "createDate": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "uploadDate": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "updateDate": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "removeDate": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "listExpirationDate": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "skills": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "skillId": {
+                    "type": "integer"
+                  },
+                  "skillName": {
+                    "type": "string"
+                  },
+                  "totalRecords": {
+                    "type": "integer"
+                  },
+                  "freshRecords": {
+                    "type": "integer"
+                  },
+                  "finalizedRecords": {
+                    "type": "integer"
+                  },
+                  "retriedRecords": {
+                    "type": "integer"
+                  }
+                }
+              }
+            },
+            "contactRecords": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "externalId": {
+                    "type": "string"
+                  },
+                  "score": {
+                    "type": "string"
+                  },
+                  "customer1": {
+                    "type": "string"
+                  },
+                  "customer2": {
+                    "type": "string"
+                  },
+                  "callerId": {
+                    "type": "string"
+                  },
+                  "priority": {
+                    "type": "string"
+                  },
+                  "complianceReq": {
+                    "type": "string"
+                  },
+                  "firstName": {
+                    "type": "string"
+                  },
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "address": {
+                    "type": "string"
+                  },
+                  "city": {
+                    "type": "string"
+                  },
+                  "state": {
+                    "type": "string"
+                  },
+                  "zip": {
+                    "type": "string"
+                  },
+                  "timeZone": {
+                    "type": "string"
+                  },
+                  "confirmReq": {
+                    "type": "string"
+                  },
+                  "agentId": {
+                    "type": "integer"
+                  },
+                  "overrideFinalization": {
+                    "type": "boolean"
+                  },
+                  "callRequestTime": {
+                    "type": "string"
+                  },
+                  "callRequestStaleMins": {
+                    "type": "integer"
+                  },
+                  "notes": {
+                    "type": "string"
+                  },
+                  "expirationDate": {
+                    "type": "string"
+                  },
+                  "icAttempts": {
+                    "type": "integer"
+                  },
+                  "icFinalStatus": {
+                    "type": "string"
+                  },
+                  "icAssignedSkillId": {
+                    "type": "integer"
+                  },
+                  "icConfirmationReq": {
+                    "type": "string"
+                  },
+                  "icComplianceRecord": {
+                    "type": "string"
+                  },
+                  "icPriority": {
+                    "type": "string"
+                  },
+                  "icSourceActive": {
+                    "type": "boolean"
+                  },
+                  "icSourceRemoved": {
+                    "type": "boolean"
+                  },
+                  "icTimeZoneNames": {
+                    "type": "string"
+                  },
+                  "icTargetAgent": {
+                    "type": "integer"
+                  },
+                  "icTargetAgentName": {
+                    "type": "string"
+                  },
+                  "icDateOfLastCall": {
+                    "type": "string"
+                  },
+                  "icLastCallDuration": {
+                    "type": "string"
+                  },
+                  "icSystemClassification": {
+                    "type": "integer"
+                  },
+                  "icSystemClassificationName": {
+                    "type": "string"
+                  },
+                  "icAgentDisposition": {
+                    "type": "integer"
+                  },
+                  "icAgentDispositionDesc": {
+                    "type": "string"
+                  },
+                  "icAgentNo": {
+                    "type": "integer"
+                  },
+                  "icAgentName": {
+                    "type": "string"
+                  },
+                  "icCallNotes": {
+                    "type": "string"
+                  },
+                  "icCommitmentAmount": {
+                    "type": "string"
+                  },
+                  "icCallerIdUsed": {
+                    "type": "boolean"
+                  },
+                  "icDeliveredComplianceRecord": {
+                    "type": "boolean"
+                  },
+                  "icDeliveredConfirmationRequired": {
+                    "type": "boolean"
+                  },
+                  "icContactDeliveryType": {
+                    "type": "boolean"
+                  },
+                  "icDeliveredPriority": {
+                    "type": "boolean"
+                  },
+                  "icDeliveredAsCallback": {
+                    "type": "boolean"
+                  },
+                  "icDeliveredAgentSpecific": {
+                    "type": "boolean"
+                  },
+                  "icCallbackDateTime": {
+                    "type": "string"
+                  },
+                  "icCallbackAgent": {
+                    "type": "integer"
+                  },
+                  "icCallbackAgentName": {
+                    "type": "string"
+                  },
+                  "icCallbackNumber": {
+                    "type": "string"
+                  },
+                  "icCallbackNotes": {
+                    "type": "string"
+                  },
+                  "icCreateDate": {
+                    "type": "string"
+                  },
+                  "icModifiedDate": {
+                    "type": "string"
+                  },
+                  "icProspectiveContactDestValue": {
+                    "type": "integer"
+                  },
+                  "icProspectiveContactDestDesc": {
+                    "type": "string"
+                  },
+                  "icProspectiveContactDestType": {
+                    "type": "string"
+                  },
+                  "icProspectiveContactExpireDate": {
+                    "type": "string"
+                  },
+                  "icCallRequestTime": {
+                    "type": "string"
+                  },
+                  "icCallRequestStaleMins": {
+                    "type": "integer"
+                  },
+                  "destinations": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "formattedDestination": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "compliance": {
+                          "type": "string"
+                        },
+                        "maxAttempts": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  },
+                  "otherFields": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "fieldName": {
+                          "type": "string"
+                        },
+                        "fieldMapping": {
+                          "type": "string"
+                        },
+                        "fieldValue": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getCallingListAttemptsResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "resultSet": {
+          "type": "object",
+          "properties": {
+            "listName": {
+              "type": "string",
+              "description": "Calling List Name"
+            },
+            "prospectiveContactCount": {
+              "type": "integer",
+              "description": "Number of unique contact prospects in uploaded list"
+            },
+            "status": {
+              "type": "string",
+              "description": "\"Active\" or \"Inactive\""
+            },
+            "totalRecords": {
+              "type": "integer",
+              "description": "Number of contact records in last file uploaded in this list.  It is NOT the total number of records in the list"
+            },
+            "validRecords": {
+              "type": "integer",
+              "description": "Number of valid records in last file uploaded in this list.  It is NOT the total number of valid records in the list"
+            },
+            "invalidRecords": {
+              "type": "integer",
+              "description": "Number of invalid records in last file uploaded in this list.  It is NOT the total number of invalid records in the list"
+            },
+            "finalizedRecords": {
+              "type": "integer",
+              "description": "Number of finalized records in this list.  This number covers all files uploaded to the list"
+            },
+            "createDate": {
+              "type": "string",
+              "format": "date-time",
+              "description": "ISO 8601 date the list was created"
+            },
+            "uploadDate": {
+              "type": "string",
+              "format": "date-time",
+              "description": "ISO 8601 date the list was uploaded"
+            },
+            "updateDate": {
+              "type": "string",
+              "format": "date-time",
+              "description": "ISO 8601 date the list was updated"
+            },
+            "removeDate": {
+              "type": "string",
+              "format": "date-time",
+              "description": "ISO 8601 date the list was removed"
+            },
+            "contactAttempts": {
+              "type": "array",
+              "description": "Collection of Contact Attempts",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "contactId": {
+                    "type": "integer",
+                    "description": "Contact Id"
+                  },
+                  "externalId": {
+                    "type": "string",
+                    "description": "External ID from contact record"
+                  },
+                  "formattedPhone": {
+                    "type": "string",
+                    "description": "Phone number of contact"
+                  },
+                  "dateOfCall": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "ISO 8601 time call was made"
+                  },
+                  "lastDuration": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "ISO 8601 duration of call"
+                  },
+                  "systemClass": {
+                    "type": "integer",
+                    "description": ""
+                  },
+                  "systemClassName": {
+                    "type": "string",
+                    "description": ""
+                  },
+                  "agentDisp": {
+                    "type": "integer",
+                    "description": ""
+                  },
+                  "agentDispDesc": {
+                    "type": "string",
+                    "description": ""
+                  },
+                  "agentId": {
+                    "type": "integer",
+                    "description": "ID of Agent who made call"
+                  },
+                  "confirmReq": {
+                    "type": "boolean",
+                    "description": "Was confirmation required"
+                  },
+                  "complianceRec": {
+                    "type": "boolean",
+                    "description": "Was confirmation required"
+                  },
+                  "deliveryType": {
+                    "type": "string",
+                    "description": ""
+                  },
+                  "callNotes": {
+                    "type": "string",
+                    "description": "Notes associated with last call of contact"
+                  },
+                  "commitAmount": {
+                    "type": "string",
+                    "description": "Value of commitment entered by Agent for contact"
+                  },
+                  "callbackDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Date for callback entered by Agent for contact"
+                  },
+                  "amDefinedExperience": {
+                    "type": "string",
+                    "description": ""
+                  },
+                  "amWaveFile": {
+                    "type": "string",
+                    "description": ""
+                  },
+                  "callerIdUsed": {
+                    "type": "string",
+                    "description": ""
+                  },
+                  "callRequestDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": ""
+                  },
+                  "causeCode": {
+                    "type": "integer",
+                    "description": ""
+                  },
+                  "deliveredAgentSpecific": {
+                    "type": "boolean",
+                    "description": ""
+                  },
+                  "deliveredAsCallback": {
+                    "type": "boolean",
+                    "description": ""
+                  },
+                  "deliveredPriority": {
+                    "type": "boolean",
+                    "description": ""
+                  },
+                  "detectionType": {
+                    "type": "string",
+                    "description": ""
+                  },
+                  "pcDestinationDesc": {
+                    "type": "string",
+                    "description": ""
+                  },
+                  "pcDestinationValue": {
+                    "type": "string",
+                    "description": ""
+                  },
+                  "targetAgent": {
+                    "type": "integer",
+                    "description": ""
+                  },
+                  "timeZone": {
+                    "type": "string",
+                    "description": ""
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "GetCallingListByJobIDResponse": {
+      "title": " ",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "uploadJobs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "jobId": {
+                "type": "integer"
+              },
+              "listId": {
+                "type": "integer"
+              },
+              "listName": {
+                "type": "string"
+              },
+              "startDate": {
+                "type": "string"
+              },
+              "submitDate": {
+                "type": "string"
+              },
+              "isComplete": {
+                "type": "boolean"
+              },
+              "isCancelled": {
+                "type": "boolean"
+              },
+              "completedDate": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "postCallingListResponse": {
+      "title": " ",
+      "type": "object",
+      "required": [ "resultSet" ],
+      "properties": {
+        "resultSet": {
+          "schema": {
+            "title": "ResultSet",
+            "description": "Result Set",
+            "required": [
+              "sourceId",
+              "importStatus",
+              "procRecords",
+              "validRecords",
+              "invalidRecords",
+              "errorResults"
+            ],
+            "properties": {
+              "sourceId": {
+                "type": "integer",
+                "description": "Calling List Id"
+              },
+              "importStatus": {
+                "type": "boolean",
+                "description": "Import Status"
+              },
+              "procRecords": {
+                "type": "integer",
+                "description": "Processed Records Count"
+              },
+              "validRecords": {
+                "type": "integer",
+                "description": "Number of valid records uploaded"
+              },
+              "invalidRecords": {
+                "type": "integer",
+                "description": "Number of invalid records not uploaded"
+              },
+              "errorResults": {
+                "type": "string",
+                "description": "Error Results"
+              }
+            }
+          }
+        }
+      }
+    },
+    "getDNCGroupsResponse": {
+      "title": " ",
+      "type": "object",
+      "required": [ "resultSet" ],
+      "properties": {
+        "resultSet": {
+          "title": "ResultSet",
+          "description": "Result Set",
+          "required": [ "totalGroups" ],
+          "properties": {
+            "totalGroups": {
+              "type": "integer",
+              "description": "Number of DNC Groups returned"
+            },
+            "dncGroups": {
+              "type": "array",
+              "description": "Collection of DNC Groups",
+              "items": {
+                "title": "DNCGroup",
+                "description": "DNC Group",
+                "required": [
+                  "dncGroupId",
+                  "dncGroupName",
+                  "dncGroupDescription",
+                  "validRecords",
+                  "isActive",
+                  "isRemoved",
+                  "createDate",
+                  "lastUpdateTime"
+                ],
+                "properties": {
+                  "dncGroupId": {
+                    "type": "integer",
+                    "description": "DNC Group Id"
+                  },
+                  "dncGroupName": {
+                    "type": "string",
+                    "description": "DNC Group Name"
+                  },
+                  "dncGroupDescription": {
+                    "type": "string",
+                    "description": "DNC Group Description"
+                  },
+                  "validRecords": {
+                    "type": "integer",
+                    "description": "Number of valid records in DNC Group"
+                  },
+                  "isActive": {
+                    "type": "boolean",
+                    "description": "Indicates if DNC Group is active"
+                  },
+                  "isRemoved": {
+                    "type": "boolean",
+                    "description": "Indicates if DNC Group is scheduled for deletion"
+                  },
+                  "createDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "ISO 8601 time DNC Group was created"
+                  },
+                  "lastUpdateTime": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "ISO 8601 time DNC Group was last updated"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "postDNCGroupsResponse": {
+      "title": " ",
+      "type": "object",
+      "required": [ "dncGroups" ],
+      "additionalProperties": false,
+      "properties": {
+        "dncGroups": {
+          "type": "array",
+          "description": "Collection of DNC Groups",
+          "items": {
+            "title": "DNCGroup",
+            "description": "DNC Group",
+            "required": [
+              "dncGroupId",
+              "dncGroupName",
+              "dncGroupDescription",
+              "validRecords",
+              "isActive",
+              "isRemoved",
+              "createDate",
+              "lastUpdateTime"
+            ],
+            "properties": {
+              "dncGroupId": {
+                "type": "integer",
+                "description": "DNC Group Id"
+              },
+              "dncGroupName": {
+                "type": "string",
+                "description": "DNC Group Name"
+              },
+              "dncGroupDescription": {
+                "type": "string",
+                "description": "DNC Group Description"
+              },
+              "validRecords": {
+                "type": "integer",
+                "description": "Number of valid records in DNC Group"
+              },
+              "isActive": {
+                "type": "boolean",
+                "description": "Indicates if DNC Group is active"
+              },
+              "isRemoved": {
+                "type": "boolean",
+                "description": "Indicates if DNC Group is scheduled for deletion"
+              },
+              "createDate": {
+                "type": "string",
+                "format": "date-time",
+                "description": "ISO 8601 time DNC Group was created"
+              },
+              "lastUpdateTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "ISO 8601 time DNC Group was last updated"
+              }
+            }
+          }
+        }
+      }
+    },
+    "getDNCGroupResponse": {
+      "title": " ",
+      "type": "object",
+      "required": [ "resultSet" ],
+      "properties": {
+        "resultSet": {
+          "schema": {
+            "title": "ResultSet",
+            "description": "Result Set",
+            "required": [ "dncGroups" ],
+            "properties": {
+              "dncGroups": {
+                "type": "array",
+                "description": "Collection of DNC Groups",
+                "items": {
+                  "title": "DNCGroup",
+                  "description": "DNC Group",
+                  "required": [
+                    "dncGroupId",
+                    "dncGroupName",
+                    "dncGroupDescription",
+                    "validRecords",
+                    "isActive",
+                    "isRemoved",
+                    "createDate",
+                    "lastUpdateTime"
+                  ],
+                  "properties": {
+                    "dncGroupId": {
+                      "type": "integer",
+                      "description": "DNC Group Id"
+                    },
+                    "dncGroupName": {
+                      "type": "string",
+                      "description": "DNC Group Name"
+                    },
+                    "dncGroupDescription": {
+                      "type": "string",
+                      "description": "DNC Group Description"
+                    },
+                    "validRecords": {
+                      "type": "integer",
+                      "description": "Number of valid records in DNC Group"
+                    },
+                    "isActive": {
+                      "type": "boolean",
+                      "description": "Indicates if DNC Group is active"
+                    },
+                    "isRemoved": {
+                      "type": "boolean",
+                      "description": "Indicates if DNC Group is scheduled for deletion"
+                    },
+                    "createDate": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "ISO 8601 time DNC Group was created"
+                    },
+                    "lastUpdateTime": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "ISO 8601 time DNC Group was last updated"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getDNCGroupContributingSkillsResponse": {
+      "title": " ",
+      "type": "object",
+      "required": [ "contributingSkills" ],
+      "properties": {
+        "totalRecords": {
+          "type": "integer",
+          "description": "Returns total number of records"
+        },
+        "_links": {
+          "type": "object",
+          "title": "_links",
+          "description": "Links used to parse paginated response",
+          "properties": {
+            "self": {
+              "type": "string",
+              "format": "URL",
+              "description": " Link to same page of results"
+            },
+            "next": {
+              "type": "string",
+              "format": "URL",
+              "description": " Link to next page of results"
+            },
+            "previous": {
+              "type": "string",
+              "format": "URL",
+              "description": " Link to previous page of results"
+            }
+          }
+        },
+        "contributingSkills": {
+          "type": "array",
+          "description": "Collection of Contributing Skills",
+          "items": {
+            "title": "ContributingSkill",
+            "description": "Contributing Skill",
+            "required": [ "skillId", "skillName" ],
+            "properties": {
+              "skillId": {
+                "type": "integer",
+                "description": "Contributing Skill Id"
+              },
+              "skillName": {
+                "type": "string",
+                "description": "Contributing Skill Name"
+              }
+            }
+          }
+        }
+      }
+    },
+    "getDNCGroupScrubbedSkillsResponse": {
+      "title": " ",
+      "type": "object",
+      "required": [ "scrubbedSkills" ],
+      "properties": {
+        "totalRecords": {
+          "type": "integer",
+          "description": "Returns total number of records"
+        },
+        "_links": {
+          "type": "object",
+          "title": "_links",
+          "description": "Links used to parse paginated response",
+          "properties": {
+            "self": {
+              "type": "string",
+              "format": "URL",
+              "description": " Link to same page of results"
+            },
+            "next": {
+              "type": "string",
+              "format": "URL",
+              "description": " Link to next page of results"
+            },
+            "previous": {
+              "type": "string",
+              "format": "URL",
+              "description": " Link to previous page of results"
+            }
+          }
+        },
+        "scrubbedSkills": {
+          "type": "array",
+          "description": "Collection of Scrubbed Skills",
+          "items": {
+            "title": "ScrubbedSkill",
+            "description": "Scrubbed Skill",
+            "required": [ "skillId", "skillName" ],
+            "properties": {
+              "skillId": {
+                "type": "integer",
+                "description": "Scrubbed Skill Id"
+              },
+              "skillName": {
+                "type": "string",
+                "description": "Scrubbed Skill Name"
+              }
+            }
+          }
+        }
+      }
+    },
+    "getDNCGroupResponseById": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "resultSet": {
+          "type": "object",
+          "properties": {
+            "dncGroups": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "dncGroupId": {
+                    "type": "integer"
+                  },
+                  "dncGroupName": {
+                    "type": "string"
+                  },
+                  "dncGroupDescription": {
+                    "type": "string"
+                  },
+                  "validRecords": {
+                    "type": "integer"
+                  },
+                  "isActive": {
+                    "type": "boolean"
+                  },
+                  "isRemoved": {
+                    "type": "boolean"
+                  },
+                  "createDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "lastUpdateTime": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getDNCGroupRecordsResponse": {
+      "title": " ",
+      "type": "object",
+      "required": [ "resultSet" ],
+      "properties": {
+        "resultSet": {
+          "schema": {
+            "title": "ResultSet",
+            "description": "Result Set",
+            "required": [ "totalRecords" ],
+            "properties": {
+              "totalRecords": {
+                "type": "integer",
+                "description": "Number of DNC Records returned"
+              },
+              "dncRecords": {
+                "type": "array",
+                "description": "Collection of DNC Group Records",
+                "items": {
+                  "title": "DNCRecord",
+                  "description": "DNC Group Record",
+                  "required": [
+                    "recordId",
+                    "createdBy",
+                    "phoneNumber",
+                    "formattedPhone",
+                    "expiredDate",
+                    "dateCollected",
+                    "lastUpdateTime"
+                  ],
+                  "properties": {
+                    "recordId": {
+                      "type": "boolean",
+                      "description": "DNC Record Id"
+                    },
+                    "createdBy": {
+                      "type": "integer",
+                      "description": "Creation Agent Id"
+                    },
+                    "phoneNumber": {
+                      "type": "string",
+                      "description": "Phone Number"
+                    },
+                    "formattedPhone": {
+                      "type": "string",
+                      "description": "Formatted Phone Number"
+                    },
+                    "expiredDate": {
+                      "type": "date",
+                      "format": "date-time",
+                      "description": "Expired Date (ISO 8601 format)"
+                    },
+                    "dateCollected": {
+                      "type": "date",
+                      "format": "date-time",
+                      "description": "Date Collected (ISO 8601 format)"
+                    },
+                    "lastUpdateTime": {
+                      "type": "date",
+                      "format": "date-time",
+                      "description": "Last Update Time (ISO 8601 format)"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getDNCGroupRecordsResponseById": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "resultSet": {
+          "type": "object",
+          "properties": {
+            "totalRecords": {
+              "type": "integer"
+            },
+            "dncRecords": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "recordId": {
+                    "type": "integer"
+                  },
+                  "createdBy": {
+                    "type": "integer"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  },
+                  "formattedPhone": {
+                    "type": "string"
+                  },
+                  "expiredDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "dateCollected": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "lastUpdateTime": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "postDNCGroupRecordsRequest": {
+      "title": " ",
+      "type": "object",
+      "required": [ "dncGroupRecords" ],
+      "properties": {
+        "dncGroupRecords": {
+          "type": "array",
+          "description": "Collection of DNC Group Records",
+          "items": {
+            "title": "DNCGroupRecord",
+            "description": "DNC Group Record",
+            "type": "object",
+            "required": [ "phoneNumber" ],
+            "properties": {
+              "phoneNumber": {
+                "type": "integer",
+                "description": "Record Phone Number"
+              },
+              "expiredDate": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "deleteDNCGroupRecordsRequest": {
+      "title": " ",
+      "type": "object",
+      "required": [ "dncGroupRecords" ],
+      "properties": {
+        "dncGroupRecords": {
+          "type": "array",
+          "description": "Collection of DNC Group Records",
+          "items": {
+            "title": "DNCGroupRecord",
+            "description": "DNC Group Record",
+            "type": "object",
+            "required": [ "phoneNumber" ],
+            "properties": {
+              "phoneNumber": {
+                "type": "string",
+                "description": "Record Phone Number"
+              },
+              "expiredDate": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "postCallListRequest": {
+      "name": "Body Parameters",
+      "description": "Array of custom data field mappings",
+      "allowMultiple": true,
+      "schema": {
+        "title": "Arguments",
+        "type": "object",
+        "properties": {
+          "customFieldMappings": {
+            "type": "array",
+            "required": true,
+            "items": {
+              "title": "customFieldMappings",
+              "properties": {
+                "fieldName": {
+                  "type": "string",
+                  "description": "Name of the mapping field",
+                  "required": true
+                },
+                "fieldValue": {
+                  "type": "string",
+                  "description": "Value of the mapping field",
+                  "required": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "postDNCGroupRecordsResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "resultSet": {
+          "type": "object",
+          "properties": {
+            "errorCount": {
+              "type": "integer"
+            },
+            "recordResults": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "error": {
+                    "type": "string"
+                  },
+                  "formattedPhone": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "deleteDNCGroupRecordsResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [ "errorCount", "recordResults" ],
+      "properties": {
+        "errorCount": {
+          "type": "integer",
+          "description": "Error Count"
+        },
+        "recordResults": {
+          "type": "array",
+          "description": "Collection of Record Results",
+          "items": {
+            "type": "object",
+            "properties": {
+              "success": {
+                "type": "boolean",
+                "description": "Results of Record removal request"
+              },
+              "error": {
+                "type": "string"
+              },
+              "formattedPhone": {
+                "type": "string",
+                "description": "Error Description"
+              }
+            }
+          }
+        }
+      }
+    },
+    "getSearchDNCGroupsResponse": {
+      "title": " ",
+      "type": "object",
+      "required": [ "searchResults" ],
+      "properties": {
+        "searchResults": {
+          "type": "array",
+          "description": "Collection of Search Results",
+          "items": {
+            "title": "SearchResult",
+            "description": "Search Result",
+            "required": [
+              "dncGroupId",
+              "dncGroupName",
+              "dncGroupDescription",
+              "formattedPhone",
+              "expiredDate",
+              "dateCollected",
+              "lastUpdateTime"
+            ],
+            "properties": {
+              "dncGroupId": {
+                "type": "integer",
+                "description": "DNC Group Id"
+              },
+              "dncGroupName": {
+                "type": "string",
+                "description": "DNC Group Name"
+              },
+              "dncGroupDescription": {
+                "type": "integer",
+                "description": "DNC Group Description"
+              },
+              "formattedPhone": {
+                "type": "string",
+                "description": "Formatted Phone Number"
+              },
+              "expiredDate": {
+                "type": "date",
+                "format": "date-time",
+                "description": "Expired Date (ISO 8601 format)"
+              },
+              "dateCollected": {
+                "type": "date",
+                "format": "date-time",
+                "description": "Date Collected (ISO 8601 format)"
+              },
+              "lastUpdateTime": {
+                "type": "date",
+                "format": "date-time",
+                "description": "Last Update Time (ISO 8601 format)"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
