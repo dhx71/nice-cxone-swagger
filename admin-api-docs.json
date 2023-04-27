@@ -1,6 +1,8 @@
 ﻿{
 
   "swagger": "2.0",
+  "host": "api-m32.niceincontact.com",
+  "basePath":"/incontactapi/services/v26.0/",
 
   "info": {
     "description": "Admin commands",
