@@ -318,7 +318,7 @@
                     "userName": {
                       "type": "string",
                       "minLength": 1,
-                      "pattern": "^[a-zA-Z0-9.'_%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,30}$"
+                      "pattern": "/^[a-zA-Z0-9.'_%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,30}$/"
                     },
                     "firstName": {
                       "type": "string",
@@ -337,7 +337,7 @@
                     "emailAddress": {
                       "type": "string",
                       "minLength": 1,
-                      "pattern": "^[a-zA-Z0-9.'_%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,30}$"
+                      "pattern": "/^[a-zA-Z0-9.'_%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,30}$/"
                     },
                     "isActive": {
                       "type": "boolean"
@@ -636,7 +636,7 @@
                     "userName": {
                       "type": "string",
                       "minLength": 1,
-                      "pattern": "^[a-zA-Z0-9.'_%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,30}$"
+                      "pattern": "/^[a-zA-Z0-9.'_%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,30}$/"
                     },
                     "firstName": {
                       "type": "string",
@@ -655,7 +655,7 @@
                     "emailAddress": {
                       "type": "string",
                       "minLength": 1,
-                      "pattern": "^[a-zA-Z0-9.'_%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,30}$"
+                      "pattern": "/^[a-zA-Z0-9.'_%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,30}$/"
                     },
                     "isActive": {
                       "type": "boolean"

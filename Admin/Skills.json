@@ -6149,7 +6149,7 @@
                 "description": "Skill Name",
                 "minLength": 1,
                 "maxLength": 30,
-                "pattern": "^(([a-zA-Z0-9-_\\.\\(\\)^\\s])*)$"
+                "pattern": "/^(([a-zA-Z0-9-_\\.\\(\\)^\\s])*)$/"
               },
               "isOutbound": {
                 "type": "boolean"
@@ -6166,14 +6166,14 @@
               "emailFromAddress": {
                 "type": "string",
                 "minLength": 1,
-                "pattern": "^(\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*\\b([,;]\\s?)?)*$"
+                "pattern": "/^(\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*\\b([,;]\\s?)?)*$/"
               },
               "emailFromEditable": {
                 "type": "boolean"
               },
               "emailBccAddress": {
                 "type": "string",
-                "pattern": "^(\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*\\b([,;]\\s?)?)*$"
+                "pattern": "/^(\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*\\b([,;]\\s?)?)*$/"
               },
               "scriptId": {
                 "type": "integer"
@@ -6478,7 +6478,7 @@
               "nullable": true,
               "minLength": 1,
               "maxLength": 30,
-              "pattern": "^(([a-zA-Z0-9-_\\.\\(\\)^\\s])*)$"
+              "pattern": "/^(([a-zA-Z0-9-_\\.\\(\\)^\\s])*)$/"
             },
             "campaignId": {
               "type": "integer",
@@ -6492,7 +6492,7 @@
             "emailFromAddress": {
               "type": "string",
               "minLength": 1,
-              "pattern": "^(\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*\\b([,;]\\s?)?)*$",
+              "pattern": "/^(\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*\\b([,;]\\s?)?)*$/",
               "nullable": true
             },
             "emailFromEditable": {
@@ -6501,7 +6501,7 @@
             },
             "emailBccAddress": {
               "type": "string",
-              "pattern": "^(\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*\\b([,;]\\s?)?)*$",
+              "pattern": "/^(\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*\\b([,;]\\s?)?)*$/",
               "nullable": true
             },
             "scriptId": {
