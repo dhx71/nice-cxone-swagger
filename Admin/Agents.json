@@ -9508,7 +9508,7 @@
   "definitions": {
     "parameters": {
       "agentId": {
-        "name": "agentId|userId",
+        "name": "agentId",
         "description": "ID of the Agent",
         "required": true,
         "type": "string",

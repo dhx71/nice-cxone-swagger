@@ -456,10 +456,10 @@
       "$ref": "https://raw.githubusercontent.com/dhx71/nice-cxone-swagger/master/Admin/Skills.json#/skills_skillid_parameters_cadence-settings"
     },
     "/skills/{skillId}/parameters/time-zones": {
-      "$ref": "https://raw.githubusercontent.com/dhx71/nice-cxone-swagger/master/Admin/skills.json#/skills_skillid_parameters_time-zones"
+      "$ref": "https://raw.githubusercontent.com/dhx71/nice-cxone-swagger/master/Admin/Skills.json#/skills_skillid_parameters_time-zones"
     },
     "/skills/{skillId}/parameters/list-management": {
-      "$ref": "https://raw.githubusercontent.com/dhx71/nice-cxone-swagger/master/Admin/skills.json#/skills_skillid_parameters_list-management"
+      "$ref": "https://raw.githubusercontent.com/dhx71/nice-cxone-swagger/master/Admin/Skills.json#/skills_skillid_parameters_list-management"
     },
     "/tags": {
       "$ref": "https://raw.githubusercontent.com/dhx71/nice-cxone-swagger/master/Admin/General.json#/tags"
