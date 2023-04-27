@@ -80,7 +80,7 @@
     "/agents": {
       "$ref": "https://raw.githubusercontent.com/dhx71/nice-cxone-swagger/master/Admin/Agents.json#/agents"
     },
-    "/agents/{agentId|userId}": {
+    "/agents/{agentId}": {
       "$ref": "https://raw.githubusercontent.com/dhx71/nice-cxone-swagger/master/Admin/Agents.json#/agents_agentId"
     },
     "/agents/{agentId}/state": {
@@ -92,7 +92,7 @@
     "/agents/{agentId}/groups": {
       "$ref": "https://raw.githubusercontent.com/dhx71/nice-cxone-swagger/master/Admin/Agents.json#/agents_agentid_groups"
     },
-    "/agents/{agentId|userId}/skills": {
+    "/agents/{agentId}/skills": {
       "$ref": "https://raw.githubusercontent.com/dhx71/nice-cxone-swagger/master/Admin/Agents.json#/agents_agentId_skills"
     },
     "/agents/{agentId}/skills/unassigned": {
